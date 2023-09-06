@@ -55,23 +55,7 @@ const getChartScaleUint: (
   return unit;
 };
 
-export default function SettingsWrapper() {
-  // const { data: session, update } = useSession();
-  const { data: profile, isFetched } = api.profile.getProfile.useQuery();
-  const { mutate, isLoading: isSaving } =
-    api.profile.createOrUpdateProfile.useMutation();
-
-  const { colorMode, toggleColorMode } = useColorMode();
-
-  const updateProfile = (preferences: string[]) => {
-    mutate({
-      preferences,
-    });
-  };
-
-  const handleLogout = async () => {
-    await signOut();
-  };
+export default function SettingsWrapper() { 
 
 
 
