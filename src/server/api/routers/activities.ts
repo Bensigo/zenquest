@@ -45,7 +45,7 @@ export const activityRouter = createTRPCRouter({
         `.trim();
 
 
-      const rawActivitiyResponse = await queryOpenAi(prompt, 0.3).catch((err: unknown) => {
+      const rawActivitiyResponse = await queryOpenAi(prompt).catch((err: unknown) => {
         console.log({ err })
       })
       
