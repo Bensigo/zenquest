@@ -121,6 +121,8 @@ export const activityRouter = createTRPCRouter({
 
       const currentProfileScore = profile.score + score;
 
+
+
       const level = getLevel(currentProfileScore);
 
       if (!level) {

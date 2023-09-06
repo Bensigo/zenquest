@@ -127,6 +127,7 @@ const QuestCard = (props: CardProps) => {
         maxWidth={{ base: "100%", sm: "150px" }}
         p={5}
         justifySelf={{ base: "center", sm: "flex-start" }}
+        maxH={{ base: '180px', md: 'auto'}}
       >
         <Image
           w="100%"

@@ -80,7 +80,7 @@ import {
               _hover={{
                 bg: 'primary',
               }}>
-              Start your jounery
+              Start Your Quest
             </Button>
           </Stack>
         </Flex>

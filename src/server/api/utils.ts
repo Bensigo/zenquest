@@ -1,6 +1,6 @@
 
 export const getLevel = (score: number) => {
-    if (score >= 0 && score <= 100) {
+    if (score >= 0 && score <= 200) {
         return 'Eden';
     } else if (score >= 201 && score <= 1000) {
         return 'Alpha';

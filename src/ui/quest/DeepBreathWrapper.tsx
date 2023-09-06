@@ -43,16 +43,15 @@ export const DeepBreathWrapper = () => {
     return (
       <Box p={6} shadow="sm" borderRadius="md" bg={useColorModeValue("white", "gray.700")}>
         {/* Embedded YouTube Video */}
-        <iframe 
-            width="100%" 
-            height="350"
+        <video controls width="100%" height={"auto"}>
+        <source 
+          
             src="https://res.cloudinary.com/dczlbbkdg/video/upload/v1693824994/breathing-medidtation_gsptl8.mp4"
-            title="Deep Breath Meditation"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
+            type="video/mp4"
              >
 
-        </iframe>
+        </source>
+        </video>
         
         {/* Short Description */}
         <Text mt={4} color={'sage.400'} fontSize="xl" fontWeight="semibold">

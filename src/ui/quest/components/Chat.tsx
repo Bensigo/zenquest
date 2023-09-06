@@ -114,16 +114,14 @@ const ChatUI = ({
       {/* Chat Messages */}
       <VStack
         flex="1"
-        p={4}
         spacing={4}
         align="stretch"
         overflowY="auto"
         bgGradient="linear(to-b, sage.50, white)"
-        boxShadow="md"
         borderRadius="md"
         px={6}
         py={20}
-        maxH="calc(100vh - 120px)"
+        maxH="calc(100vh - 250px)"
       >
         {msgs.map((message, index) => (
           <Box
@@ -149,21 +147,21 @@ const ChatUI = ({
 
       {/* Chat Input and Send Button */}
       <Flex
-        my={6}
+        mb={6}
         p={4}
         bg="white"
-        position="absolute"
         bottom="0"
         alignItems="center"
-        left="0"
+       
         width="100%"
-        boxShadow="md"
         borderTopWidth="1px"
       >
         <Textarea
           value={messageInput}
           flex="1"
           mr={2}
+          variant={'filled'}
+          _focus={{ border: 'none'}}
           disabled={isInputDisabled}
           onChange={(e) => setMessageInput(e.target.value)}
           placeholder={

@@ -111,7 +111,7 @@ const CreateNewQuestWrapper = () => {
               bg={"gray.200"}
               value={goal}
               onChange={(e) => setGoal(e.target.value)}
-              h={"100px"}
+              h={"350px"}
               variant={"filled"}
             />
             <HStack spacing={3}>

@@ -49,7 +49,7 @@ export default function Hero({
             as="h2"
             size="md"
             color="gray.600"
-
+            width={'100%'}
             opacity="0.8"
             fontWeight="semibold"
             lineHeight={'tall'}
