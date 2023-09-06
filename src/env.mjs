@@ -23,9 +23,9 @@ export const env = createEnv({
     // Add `.min(1) on ID and SECRET if you want to make sure they're not empty
     GOOGLE_ID: z.string(),
     GOOGLE_SECRET: z.string(),
-    APPLE_ID: z.string(),
-    APPLE_SECRET: z.string(),
-    MAIL_SERVER: z.string(),
+    APPLE_ID: z.string().optional(),
+    APPLE_SECRET: z.string().optional(),
+    MAIL_SERVER: z.string().optional(),
     OPEN_AI: z.string(),
   },
 
