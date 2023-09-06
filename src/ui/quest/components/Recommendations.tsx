@@ -38,7 +38,7 @@ const RecommendedActivities = ({ moodScore }: { moodScore: number }) => {
   const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
 const questId = router.query.id as string 
   const { data: recommendedActivities, isLoading, isFetched } =
-    api.activity.getActivites.useQuery({ mood: moodScore, questId }, { t});
+    api.activity.getActivites.useQuery({ mood: moodScore, questId });
 
 
   const onCompleteActivity =() => {
