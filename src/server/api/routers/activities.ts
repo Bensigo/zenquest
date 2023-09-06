@@ -24,9 +24,14 @@ export const activityRouter = createTRPCRouter({
   getActivites: protectedProcedure
     .input(z.object({ mood: z.number(), questId: z.string() }))
     .query(async ({ ctx, input }) => {
-      // const prisma = ctx.prisma;
+      const prisma = ctx.prisma;
 
-      const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
+      // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
+      const quest = await prisma.quest.findFirst({
+        where: {  id : input.questId },
+        include: { goal: true }
+      });
+
       if(!quest){
         throw new Error('invlaid quest')
       }
