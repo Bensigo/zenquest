@@ -8,19 +8,33 @@ import {
   Skeleton,
   SimpleGrid,
   Button,
-  useToast
+  useToast,
+  Heading
 } from "@chakra-ui/react";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
 
 
+function getRandomColor() {
+  // Define the hue range that complements sage green (e.g., between 90 and 150)
+  const minHue = 90;
+  const maxHue = 150;
 
+  // Generate a random hue value within the defined range
+  const randomHue = Math.floor(Math.random() * (maxHue - minHue + 1)) + minHue;
+
+  // Convert the hue value to an HSL color string
+  const randomColor = `hsl(${randomHue}, 70%, 50%)`; // Adjust saturation and lightness as needed
+
+  return randomColor;
+}
 
 const RecommendedActivities = ({ moodScore }: { moodScore: number }) => {
 
   const router = useRouter()
   const context = api.useContext()
   const toast = useToast();
+  const randBg = getRandomColor()
   const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Activity'})
   const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
 const questId = router.query.id as string 
@@ -67,25 +81,30 @@ const questId = router.query.id as string
           Finish 🎉
         </Button>                   
       </Box>
-        <SimpleGrid columns={3} spacing={4}>
+        <SimpleGrid  columns={{ base: 1, md: 3 }} spacing={4}>
           {recommendedActivities &&
             recommendedActivities?.map((activity, index) => (
               <Box
                 key={index}
-                shadow={"md"}
-                p={4}
-                borderWidth="1px"
+                border={'sm'}
+                borderWidth={'0.5px'}
                 borderRadius="md"
               >
-                <Image
-                  src={'/space/yoga.jpg'}
+                {/* <Image
+                  src={`https://source.unsplash.com/random/300x300/?${activity.title}`}
+                  loading="lazy"
                   alt={activity.title}
                   boxSize={"contain"}
                   maxH={200}
                   width={"100%"}
-                />
+                /> */}
+                <Box  borderTopRadius={'sm'} display={'flex'}   py={10} px={4} alignSelf={'center'} background={getRandomColor()}>
+                    <Heading width={'100%'} textAlign={'center'} color="white" fontSize={'md'}>{activity.title.includes('Meditation')? 'Meditation' : activity.title }</Heading>
+
+                </Box>
+                <Box px={4} pb={4}>
                 <Text color={"gray.600"} mt={2} fontWeight="bold">
-                  {activity.title}
+                  {activity.title.includes('Meditation')? 'Meditation' : activity.title }
                 </Text>
                 <Tag
                   my={2}
@@ -97,6 +116,7 @@ const questId = router.query.id as string
                   <TagLabel>{activity.duration}</TagLabel>
                 </Tag>
                 <Text color={"gray.600"}>{activity.description}</Text>
+                </Box>
               </Box>
             ))}
         </SimpleGrid>
