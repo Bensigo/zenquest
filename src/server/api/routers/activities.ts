@@ -250,7 +250,7 @@ export const activityRouter = createTRPCRouter({
           quest: true
         }
       })
-
+      
       return activity;
 
     }),
