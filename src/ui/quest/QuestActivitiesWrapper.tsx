@@ -10,7 +10,7 @@ import {
 import { FaSmile, FaMeh, FaFrown, FaSadTear } from 'react-icons/fa';
 import { api } from '@/utils/api';
 import cookie from 'js-cookie'
-import RecommendedActivities from './components/Recommendations';
+import RecommendedActivities from '@/ui/quest/components/Recommendations';
 
 
 
