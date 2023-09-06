@@ -3,7 +3,6 @@ import { BiSend } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { type Message } from "@prisma/client";
 import { useRouter } from "next/router";
-import { QUEST_NEXT_STEP } from "@/ui/space-affrimations/AffirmationWrapper";
 import { api } from "@/utils/api";
 
 const ChatUI = ({
@@ -14,7 +13,7 @@ const ChatUI = ({
 }: {
   msgs: Message[];
   onSendMsg: (msg: string) => void;
-  user: any;
+  user?: { [key: string]: any };
   isLoading: boolean;
 }) => {
   const router = useRouter();
@@ -28,7 +27,7 @@ const ChatUI = ({
   const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Chat'})
   const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
 
-  const handleSendMessage = async () => {
+  const handleSendMessage =  () => {
     if (messageInput.trim() !== '') {
       setMessageInput('');
       setIsInputDisabled(true); // Disable input while sending
@@ -135,7 +134,7 @@ const ChatUI = ({
             boxShadow="md"
             _odd={{ bg: "gray.100" }}
           >
-            <Box  fontSize={'sm'} as='span'>{message.sender === 'user'? user.name : 'Ada'}</Box>
+             <Box  fontSize={'sm'} as='span'>{message.sender === 'user'? (user?.name as string ): 'Ada'}</Box>
              <Text> {message.content}</Text>
           </Box>
         ))}

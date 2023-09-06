@@ -86,7 +86,7 @@ const Note = ({
 
 
 
-  const handleNoteSubmit = async (e: FormEvent<HTMLFormElement>) => {
+  const handleNoteSubmit =  (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit(textareaRef.current?.value as string);
   };

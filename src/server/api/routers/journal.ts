@@ -36,7 +36,7 @@ export const journalRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       const { prisma, session } = ctx;
       const userId = session.user.id;
-      const { theraputicalJournal, userMood, note, id } = input;
+      const {  note, id } = input;
       if (note) {
         // if note already exist update
         if (id) {
@@ -69,37 +69,6 @@ export const journalRouter = createTRPCRouter({
         return journal;
       }
 
-      if (theraputicalJournal?.length && userMood) {
-        // should do sentiment to find user mood  first before we save to db
-        const mood = await calculateMood(userMood, theraputicalJournal)
-        const journal = await prisma.journal.create({
-          data: {
-            userMood: (userMood / 10),
-            mood: parseFloat(mood.toFixed(2)),
-            userId,
-            therapy: {
-              createMany: {
-                data: theraputicalJournal.map((journal) => ({
-                  question: journal.question,
-                  answer: journal.answer,
-                })),
-              },
-            },
-          },
-        });
-
-        // // create metrics
-        await prisma.activity.create({
-          data: {
-            userId,
-            moodScore: parseFloat(mood.toFixed(2)),
-            type: "THERAPY",
-            endTime: new Date(),
-          },
-        });
-
-        return journal;
-      }
     }),
 
   getJournal: protectedProcedure

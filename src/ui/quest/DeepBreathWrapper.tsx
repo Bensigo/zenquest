@@ -48,8 +48,9 @@ export const DeepBreathWrapper = () => {
             height="350"
             src="https://res.cloudinary.com/dczlbbkdg/video/upload/v1693824994/breathing-medidtation_gsptl8.mp4"
             title="Deep Breath Meditation"
-            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-             allowfullscreen>
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+             >
 
         </iframe>
         

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  ChakraProvider,
   Box,
   Flex,
   Text,
@@ -10,9 +9,8 @@ import {
 } from '@chakra-ui/react';
 import { FaSmile, FaMeh, FaFrown, FaSadTear } from 'react-icons/fa';
 import { api } from '@/utils/api';
-import RecommendedActivities from '../dashboard-home/components/Recommendations';
 import cookie from 'js-cookie'
-import { useRouter } from 'next/router';
+import RecommendedActivities from './components/Recommendations';
 
 
 

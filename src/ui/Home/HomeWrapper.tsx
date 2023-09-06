@@ -209,6 +209,7 @@ export const HomeWrapper = () => {
                   fontWeight={"medium"}
                   color={"gray.500"}
                 >
+                 { /* eslint-disable-next-line react/no-unescaped-entities */ }
                   At ZenQuest, we don't sell your data, and we don't spam you.
                 </Text>
               </Box>

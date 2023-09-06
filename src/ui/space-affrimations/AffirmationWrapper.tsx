@@ -6,7 +6,7 @@ import React, { useState } from 'react'
 
 export const QUEST_NEXT_STEP = 'nextStep'
 
-export function AffirmationCard({ data, title, isQuest }: { data: string[], title?: string, isQuest: boolean}) {
+export function AffirmationCard({ data, title, isQuest }: { data: string[], title?: string, isQuest?: boolean}) {
     const [currentAffirmationIndex, setCurrentAffirmationIndex] = useState(0);
     const router = useRouter();
     const context = api.useContext();
@@ -103,7 +103,7 @@ export const AffirmationWrapper = () => {
   return (
     <Box>
         <Skeleton isLoaded={isFetched}>
-           <AffirmationCard  data={data || []} />
+           <AffirmationCard  data={data || []}  />
         </Skeleton>
     </Box>
   )

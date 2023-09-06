@@ -1,9 +1,8 @@
 
 
 import { api } from '@/utils/api'
-import { Box, Skeleton , Text, Button, Heading, useToast} from '@chakra-ui/react'
+import { Box, Skeleton , Text, Button, useToast} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
-import QuestSetup from './components/QuestSetup'
 import { Quest } from './components/Quest'
 import  differenceInDays  from 'date-fns/differenceInDays'
 import { QUEST_NEXT_STEP } from '../space-affrimations/AffirmationWrapper'

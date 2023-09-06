@@ -32,7 +32,7 @@ export const activityRouter = createTRPCRouter({
       }
 
       if (!quest.goal)return [];
-      const goal = (quest.goal.name) as string;
+      const goal = (quest.goal).name;
       const prompt = `
       Imagine yourself as a specialist, someone with a mood of ${input.mood} in a scale of 1-10
       Can you suggest six activities for the day that can empower him to reach thier goal? 
@@ -79,7 +79,7 @@ export const activityRouter = createTRPCRouter({
       const isChat = type.toLowerCase() === DailyQuestActivity.Chat.toString().toLowerCase();
       if (isChat){
         // create a new  chat ;
-        const goal = (quest.goal.name) as string;
+        const goal = (quest.goal).name;
         await createChat(prisma, goal, userId, quest.id)
 
       }

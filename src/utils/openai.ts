@@ -33,8 +33,8 @@ export async function chatCompletionAi(msgs: {role: string, content: string }[],
       temperature
     })
     return resp.data.choices[0]?.message?.content;
-   }catch (err){
-      console.log(err.message);
+   }catch (err: unknown){
+      console.log(err);
    }
 }
 
@@ -54,7 +54,7 @@ export async function queryOpenAi(prompt: string, temperature = 0.7) {
     const data = resp.data.choices[0]?.message?.content;
 
     return data;
-  } catch (err: any) {
+  } catch (err: unknown) {
    
     console.log({ err })
     

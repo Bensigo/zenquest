@@ -14,8 +14,8 @@ import { BsArrowUpRight } from 'react-icons/bs'
 
 type ZenQuestCardProps = {
    title?: string;
-   description: string,
-   btnText: string
+   description?: string,
+   btnText?: string
    img?: string,
    onClick: () => void;
    currentDay: () => number 

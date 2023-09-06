@@ -10,7 +10,6 @@ import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AnimatePresence } from 'framer-motion';
 import customTheme from "@/utils/theme";
-import { wrapper } from "@/store";
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,

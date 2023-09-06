@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { Level } from "@prisma/client";
 
 export const profileRouter = createTRPCRouter({
   getProfile: protectedProcedure.query(async ({ ctx }) => {
@@ -33,7 +34,7 @@ export const profileRouter = createTRPCRouter({
             userId,
             ...( name ? { name } : { }),
             ...( preferences?.length > 1 ? { perference: preferences as string [] } : { }),
-            level: 'ethan'
+            level: Level.Eden
           }
         })
         return currentProfile;

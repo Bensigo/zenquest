@@ -75,7 +75,7 @@ const Filter = ({ selectedFilter, onChange }: {selectedFilter: Filter, onChange:
           <Flex flexWrap={'wrap'} gridGap={6} >
             { quests && quests.length > 0 ?
               quests.map((quest, i) => (
-                <ZenQuestCard currentDay={() => getNumberOfDays(quest.createdAt)} totalDays={() =>  totalDays(quest.createdAt, quest.endDate)} key={quest.id} description={quest?.goal?.name} btnText="View" onClick={() => gotoQUestDetail(quest.id)}/>
+                <ZenQuestCard currentDay={() => getNumberOfDays(quest.createdAt)} totalDays={() =>  totalDays(quest.createdAt, quest.endDate)} key={quest.id} description={(quest.goal)?.name} btnText="View" onClick={() => void gotoQUestDetail(quest.id)}/>
               )): 
               <Center width={'100%'}>
                     <Text  fontWeight={'semibold'} color={'gray.600'}>No quest found</Text>

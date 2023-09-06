@@ -1,30 +1,26 @@
-import { IntervalFormat } from "@/shared-ui/AreaChart";
-import ContentPreference from "@/shared-ui/ContentPreference";
 import MoodProgressBar from "@/shared-ui/MoodProgressBar";
 import { api } from "@/utils/api";
 import {
   Box,
-  Button,
   Card,
   CardBody,
   CardHeader,
   Center,
-  HStack,
   Heading,
-  IconButton,
   Select,
   Skeleton,
   Stack,
   useColorMode,
   Text
 } from "@chakra-ui/react";
-import { useSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
 import cookie from "js-cookie";
 
 import React, { useEffect, useState } from "react";
-import { BiCog, BiMoon, BiSun } from "react-icons/bi";
 import { AffirmationWrapper } from "../space-affrimations/AffirmationWrapper";
+
+export type IntervalFormat = false | "millisecond" | "second" | "minute" | "hour" | "day" | "week" | "month" | "quarter" | "year" | undefined
+
 
 export enum ActivitiesMetricIntervals {
   day = "day",
@@ -117,15 +113,6 @@ export default function SettingsWrapper() {
 
   return (
     <Box p={4} as={Stack}>
-         {/* <Button
-        onClick={toggleColorMode}
-        value={'color mode'}
-        aria-label="color-mode"
-        rightIcon={colorMode === "light" ? <BiMoon /> : <BiSun />}
-        color={"sage.500"}
-      >  
-      {colorMode === "light" ? "Dark": "Light"}
-        </Button> */}
         <Heading
           as="h4"
           size={{ base: "lg", md: "xl" }}
@@ -187,44 +174,6 @@ export default function SettingsWrapper() {
       >
         <AffirmationWrapper />
      </Card>
-      {/* <Card
-        shadow={"sm"}
-        p={3}
-        minW={{ base: "100%", md: "400px" }}
-        minH={{ base: "100", md: "100%" }}
-      >
-        <Skeleton isLoaded={true}></Skeleton>
-        <Heading color={"primary"} size={"md"} as={"h4"}>
-          Content Preferences
-        </Heading>
-        <Skeleton isLoaded={isFetched}>
-          <ContentPreference
-            isSaving={isSaving}
-            preferences={profile?.perference || []}
-            onSave={updateProfile}
-          />
-        </Skeleton>
-      </Card> */}
-
-      {/* <Card
-        dir="row"
-        justifyContent={"center"}
-        display={"flex"}
-        shadow={"sm"}
-        p={3}
-        minW={{ base: "100%", md: "400px" }}
-        minH={{ base: "100", md: "100px" }}
-      >
-        <Button
-          px={2}
-          width={"150px"}
-          size={"md"}
-          colorScheme={"blackAlpha"}
-          onClick={() => void handleLogout()}
-        >
-          Logout
-        </Button>
-      </Card> */}
     </Box>
   );
 }

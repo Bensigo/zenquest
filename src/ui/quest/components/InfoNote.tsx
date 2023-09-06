@@ -4,7 +4,8 @@ import { Box } from '@chakra-ui/react'
 import React from 'react'
 
 export const InfoNote = (props: { children: any}) => {
-  const { children, ...rest } = props;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const { children , ...rest } = props;
   return (
     <Box
     {...rest}

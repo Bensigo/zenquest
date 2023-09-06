@@ -2,7 +2,6 @@
 import { useEffect } from 'react'
 import { type NextPage } from "next";
 import LandingPageLayout from "@/shared-ui/BaseLayout";
-import { Box } from "@chakra-ui/react";
 import { HomeWrapper } from "@/ui/Home/HomeWrapper";
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
@@ -20,9 +19,11 @@ const Home: NextPage = () => {
       const goToDasboard = async () => {
         await router.push('/space/journal')
       }
-      goToDasboard();
+      void goToDasboard();
     }
-   return () => {}
+   return () => {
+    //
+   }
 
   }, [status, router])
      

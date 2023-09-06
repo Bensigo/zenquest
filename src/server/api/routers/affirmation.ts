@@ -2,7 +2,6 @@ import { extractArrayFromString, queryOpenAi } from "@/utils/openai";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
 const aiPromptForAffirmations = `I want you to generate 20 affirmation, to brighting my day. return answer in an array format, without indexing`
-const aiPromptForAffirmationsWithPreference = (pref: string[]) => `I want you to generate 20 affirmation, to brighting my day focusing on this list ${pref}. return answer in an array format, without indexing`
 
 export function rawDataToAffirmations(inputString: string): string[] {
   if (!inputString) return [];
@@ -12,13 +11,13 @@ export function rawDataToAffirmations(inputString: string): string[] {
     for (const line of lines) {
       const matches = line.match(/"([^"]+)"/);
       if (matches && matches.length >= 2) {
-        affirmations.push(matches[1]);
+        affirmations.push((matches[1] as string));
       }
     }
 
     return affirmations;
-  } catch (error: any) {
-    console.error({ error });
+  } catch (error: unknown) {
+    console.log({ error });
     return [];
   }
 }

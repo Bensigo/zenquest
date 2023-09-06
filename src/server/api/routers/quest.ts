@@ -111,7 +111,7 @@ const questRouter = createTRPCRouter({
             isActive: true
           },
           include: {
-            goals: true
+            goal: true
           }
         })
         return quest;
