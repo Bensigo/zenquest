@@ -31,12 +31,12 @@ export async function chatCompletionAi(msgs: {role: string, content: string }[],
       model: "gpt-3.5-turbo",
       messages: msgs as ChatCompletionRequestMessage[],
       temperature
-    })
+    }, { timeout: 1500 })
     return resp.data.choices[0]?.message?.content;
    }catch (err: unknown){
       console.log(err);
    }
-}
+}             
 
 export async function queryOpenAi(prompt: string, temperature = 0.7) {
   try {
@@ -61,14 +61,6 @@ export async function queryOpenAi(prompt: string, temperature = 0.7) {
   }
 }
 
-
-const sentimentAnalysisPrompt = `
-You are playing the role of a therapist.
- I will provide you with an array of questions and answers,
-and I need you to perform sentiment analysis on the user's mood based on their responses.
- Your task is to evaluate the sentiment of each answer based on the corresponding question and return a single sentiment analysis score ranging from 0 to 1,
-indicating the user's overall mood as one of the following: happy, okay, sad, or depressed. Please provide the sentiment analysis scores as an array.
-`
 
 const que = `You are playing the role of a therapist.
 I will provide you with a question and answer,
