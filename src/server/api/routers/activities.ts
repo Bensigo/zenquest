@@ -30,21 +30,24 @@ export const activityRouter = createTRPCRouter({
       if(!quest){
         throw new Error('invlaid quest')
       }
-
+      console.log({ quest })
       if (!quest.goal)return [];
       const goal = (quest.goal).name;
       const prompt = `
       Imagine yourself as a specialist, someone with a mood of ${input.mood} in a scale of 1-10
-      Can you suggest six activities for the day that can empower him to reach thier goal? 
+      Can you recommend six activities for the day that can empower him/her to reach thier goal? 
       These activities should contribute to thier pursuit of ${goal}. Please provide your response in the form of a JavaScript array of objects, with each object containing a title, duration, and a concise description (maximum 150 characters). 
         `.trim();
 
 
       const rawActivitiyResponse = await queryOpenAi(prompt, 0.2);
+
+      console.log({ rawActivitiyResponse })
       if (!rawActivitiyResponse) {
         throw new Error("Oops something went wrong");
       }
       const activities = parseActivities(rawActivitiyResponse);
+      console.log({ activities })
 
       return activities;
     }),

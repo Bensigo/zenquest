@@ -30,7 +30,7 @@ const moodOptions = [
 
 const QuestActivityWrapper = () => {
   const [selectedMood, setSelectedMood] = useState<Mood>();
-  const [showMoodCard, setShowMoodCard] = useState(true)
+  const [showMoodCard, setShowMoodCard] = useState(false)
   const [score, setScore] = useState<number>()
 
   const { mutate: createMood, isLoading } = api.metric.createMoodMetric.useMutation()
@@ -40,7 +40,9 @@ const QuestActivityWrapper = () => {
     if (moodScore){
       const score = Number(moodScore);
       setScore(score)
-      setShowMoodCard(false)
+    
+    }else {
+      setShowMoodCard(true)
     }
   }, [])
 

@@ -34,7 +34,6 @@ const RecommendedActivities = ({ moodScore }: { moodScore: number }) => {
   const router = useRouter()
   const context = api.useContext()
   const toast = useToast();
-  const randBg = getRandomColor()
   const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Activity'})
   const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
 const questId = router.query.id as string 
@@ -75,7 +74,7 @@ const questId = router.query.id as string
         Recommended Activities for you based on your mood
       </Box>
      
-      <Skeleton isLoaded={isFetched}>
+      <Skeleton isLoaded={isFetched} minH={'200px'}>
       <Box display={'flex'} justifyContent={'end'} my={3}>
         <Button isLoading={isCompleteQuestActivityLoading} colorScheme="sage" onClick={onCompleteActivity}>
           Finish 🎉
