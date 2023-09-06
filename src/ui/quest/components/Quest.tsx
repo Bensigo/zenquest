@@ -95,7 +95,7 @@ const QuestCard = (props: CardProps) => {
     >
       <Box flex="1">
         <CardBody>
-          <Stack spacing={2}>
+          <Stack spacing={1}>
             {isActive ? (
               <BiLockOpen size={"18px"} color="#667a62" />
             ) : (
@@ -127,7 +127,7 @@ const QuestCard = (props: CardProps) => {
         maxWidth={{ base: "100%", sm: "150px" }}
         p={5}
         justifySelf={{ base: "center", sm: "flex-start" }}
-        maxH={{ base: '180px', md: 'auto'}}
+        maxH={{ base: '120px', md: 'auto'}}
       >
         <Image
           w="100%"

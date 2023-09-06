@@ -24,40 +24,45 @@ export const activityRouter = createTRPCRouter({
   getActivites: protectedProcedure
     .input(z.object({ mood: z.number(), questId: z.string() }))
     .query(async ({ ctx, input }) => {
-      const prisma = ctx.prisma;
+        try {
+          const prisma = ctx.prisma;
 
-      // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
-      const quest = await prisma.quest.findFirst({
-        where: {  id : input.questId },
-        include: { goal: true }
-      });
-
-      if(!quest){
-        throw new Error('invlaid quest')
-      }
-      console.log({ quest })
-      if (!quest.goal)return [];
-      const goal = (quest.goal).name;
-      const prompt = `
-      Imagine yourself as a specialist, someone with a mood of ${input.mood} in a scale of 1-10
-      Can you recommend six activities for the day that can empower him/her to reach thier goal? 
-      These activities should contribute to thier pursuit of ${goal}. Please provide your response in the form of a JavaScript array of objects, with each object containing a title, duration, and a concise description (maximum 150 characters). 
-        `.trim();
-
-
-      const rawActivitiyResponse = await queryOpenAi(prompt).catch((err: unknown) => {
-        console.log({ err })
-      })
-      
-
-      console.log({ rawActivitiyResponse })
-      if (!rawActivitiyResponse) {
-        throw new Error("Oops something went wrong");
-      }
-      const activities = parseActivities(rawActivitiyResponse);
-      console.log({ activities })
-
-      return activities;
+          // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
+          const quest = await prisma.quest.findFirst({
+            where: {  id : input.questId },
+            include: { goal: true }
+          });
+    
+          if(!quest){
+            throw new Error('invlaid quest')
+          }
+          if (!quest.goal)return [];
+          const goal = (quest.goal).name;
+          const prompt = `
+          Imagine yourself as a specialist, someone with a mood of ${input.mood} in a scale of 1-10
+          Can you recommend six activities for the day that can empower him/her to reach thier goal? 
+          These activities should contribute to thier pursuit of ${goal}. Please provide your response in the form of a JavaScript array of objects, with each object containing a title, duration, and a concise description (maximum 150 characters). 
+            `.trim();
+    
+    
+          const rawActivitiyResponse = await queryOpenAi(prompt).catch((err: unknown) => {
+            console.log({ err })
+          })
+          
+    
+          console.log({ rawActivitiyResponse })
+          if (!rawActivitiyResponse) {
+            throw new Error("Oops something went wrong");
+          }
+          const activities = parseActivities(rawActivitiyResponse);
+          console.log({ activities })
+    
+          return activities;
+        }
+        catch (err: unknown){
+          console.log(err)
+          throw err;
+        }
     }),
   startQuestActivity: protectedProcedure
     .input(

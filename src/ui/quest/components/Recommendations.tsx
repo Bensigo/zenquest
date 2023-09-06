@@ -1,7 +1,6 @@
 import React from "react";
 import {
   Box,
-  Image,
   Text,
   Tag,
   TagLabel,
@@ -37,7 +36,8 @@ const RecommendedActivities = ({ moodScore }: { moodScore: number }) => {
   const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Activity'})
   const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
 const questId = router.query.id as string 
-  const { data: recommendedActivities, isLoading, isFetched } =
+
+const { data: recommendedActivities, isLoading, isFetched } =
     api.activity.getActivites.useQuery({ mood: moodScore, questId });
 
 
