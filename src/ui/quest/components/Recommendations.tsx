@@ -69,7 +69,7 @@ const { data: recommendedActivities, isLoading, isFetched } =
   }  
 
   return (
-    <Box>
+    <Box py={10} mb={8}>
       <Box fontWeight="bold" fontSize="md" color={"gray.600"} mb={4}>
         Recommended Activities for you based on your mood
       </Box>
@@ -90,6 +90,7 @@ const { data: recommendedActivities, isLoading, isFetched } =
               <Box
                 key={index}
                 border={'sm'}
+                shadow={'xs'}
                 borderWidth={'0.5px'}
                 borderRadius="md"
               >
