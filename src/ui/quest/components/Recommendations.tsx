@@ -71,7 +71,7 @@ const { data: recommendedActivities, isLoading, isFetched } =
   return (
     <Box py={10} mb={8}>
       <Box fontWeight="bold" fontSize="md" color={"gray.600"} mb={4}>
-        Recommended Activities for you based on your goal.
+        Suggested Activities for you based on your goal.
       </Box>
      
       
