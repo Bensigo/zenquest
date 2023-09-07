@@ -32,6 +32,7 @@ export async function chatCompletionAi(msgs: {role: string, content: string }[],
       messages: msgs as ChatCompletionRequestMessage[],
       temperature
     }, { timeout: 2000 })
+    console.log({ resp })
     return resp.data.choices[0]?.message?.content;
    }catch (err: unknown){
       console.log(err);

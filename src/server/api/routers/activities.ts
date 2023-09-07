@@ -40,7 +40,7 @@ export const activityRouter = createTRPCRouter({
           const goal = (quest.goal).name;
           const prompt = `
           Imagine yourself as a specialist, someone with a mood of ${input.mood} in a scale of 1-10
-          Can you recommend four activities for the day that can empower him/her to reach thier goal? 
+          Can you recommend three activities for the day that can empower him/her to reach thier goal? 
           These activities should contribute to thier pursuit of ${goal}. Please provide your response in the form of a JavaScript array of objects, with each object containing a title, duration, and a concise description (maximum 150 characters). 
             `.trim();
     
