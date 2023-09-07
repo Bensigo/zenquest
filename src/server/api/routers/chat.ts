@@ -153,6 +153,7 @@ export const chatRouter = createTRPCRouter({
             }
           }
         })
+        console.log({ session })
         return session;
     }),
     sendMessage: protectedProcedure.input(z.object({
@@ -259,10 +260,11 @@ export async function createChat (prisma: PrismaClient, focus: string, userId: s
         return;
       }
       // create a new session with is root false
-      await prisma.dailyTherapySession.create({
+     const daily =  await prisma.dailyTherapySession.create({
         data: {
           questId: quest.id,
           start: startTime,
+          isActive: true,
           end: endTime,
           focus,
           messages: {
@@ -281,6 +283,8 @@ export async function createChat (prisma: PrismaClient, focus: string, userId: s
           }
         }
       })
+
+      console.log({ daily })
 
       return startConvoResp;
     

@@ -31,7 +31,7 @@ export async function chatCompletionAi(msgs: {role: string, content: string }[],
       model: "gpt-3.5-turbo",
       messages: msgs as ChatCompletionRequestMessage[],
       temperature
-    }, { timeout: 5000 })
+    }, { timeout: 10000 })
     return resp.data.choices[0]?.message?.content;
    }catch (err: unknown){
       console.log(err);
