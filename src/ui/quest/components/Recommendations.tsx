@@ -38,7 +38,7 @@ const RecommendedActivities = ({ moodScore }: { moodScore: number }) => {
 const questId = router.query.id as string 
 
 const { data: recommendedActivities, isLoading, isFetched } =
-    api.activity.getActivites.useQuery({ mood: moodScore, questId }, { retryDelay: 1000 });
+    api.activity.getActivites.useQuery({ mood: moodScore, questId }, { retryDelay: 1000, cacheTime: 2000 });
 
 
   const onCompleteActivity =() => {
