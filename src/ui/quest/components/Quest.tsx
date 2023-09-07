@@ -161,7 +161,7 @@ const steps: Step[] = [
   },
   {
     title: "Affirmations",
-    description: "Curated affirmations, that matches with your goals",
+    description: "Curated affirmations, that matches with your goal.",
     Component: (props: CardProps) => <QuestCard {...props} />,
     path: "/affirmations",
     imageUrl: "/space/affirmation.svg",
@@ -169,21 +169,21 @@ const steps: Step[] = [
   {
     title: "Chat",
     description:
-      "10 mins Chat session, with Ada in alignment with one of your goal",
+      "Have a 10-minute chat session with Ada, aligned with your goal.",
     Component: (props: CardProps) => <QuestCard {...props} />,
     path: "/chat",
     imageUrl: "/space/chat.svg",
   },
   {
     title: "Activity",
-    description: "Track your current mood, for more insight for growth",
+    description: "Recommended activities tailored to propel you closer to your goal.",
     Component: (props: CardProps) => <QuestCard {...props} />,
     path: "/activities",
     imageUrl: "/space/activity.svg",
   },
   {
     title: "Journaling",
-    description: "Documenting your day is a good pratice of accounatability",
+    description: "Documenting your day is a good pratice of accounatability and reflection.",
     Component: (props: CardProps) => <QuestCard {...props} />,
     path: "/space/journal/new?type=plain&from=quest",
     imageUrl: "/space/journal.svg",
