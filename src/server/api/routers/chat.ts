@@ -249,7 +249,7 @@ export async function createChat (prisma: PrismaClient, focus: string, userId: s
         return messages;
       }).flat()
   
-      const prompt =  'Can we continue the session, starting with a new day?' // add prompt
+      const prompt =  'Can we continue the session?' // add prompt
       const messages = [...conversation, { role: 'user', content: prompt }]
       
       const startConvoResp = await chatCompletionAi(messages);

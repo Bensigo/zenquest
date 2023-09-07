@@ -77,14 +77,14 @@ export function AffirmationCard({ data, title, isQuest }: { data: string[], titl
                 mr={2}
                 isDisabled={currentAffirmationIndex === 0}
                 onClick={handleBack}
-                bg="primary" color='white'
+                colorScheme='sage'
               >
                 Back
               </Button>
 
                { isQuest && currentAffirmationIndex + 1 === totalAffirmations ? 
                 <Button isLoading={isCompleteQuestActivityLoading} colorScheme='sage'  mr={2} onClick={() => void handleCompleteQuestStep()} >Complete Step</Button> :
-                <Button bg="primary" color='white' ml={2} onClick={handleNext}>
+                <Button colorScheme='sage' ml={2} onClick={handleNext}>
                 Next
               </Button>
               }

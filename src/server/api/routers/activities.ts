@@ -141,6 +141,8 @@ export const activityRouter = createTRPCRouter({
 
       const level = getLevel(currentProfileScore);
 
+      console.log({ level })
+
       if (!level) {
         throw new Error("Oops try again");
       }
