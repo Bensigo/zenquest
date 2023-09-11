@@ -155,7 +155,7 @@ const QuestTherapyWrapper = () => {
         <Box>
            
             <Skeleton  isLoaded={!loadingConversation}>
-              <Box  width='100%' px={2} >
+              <Box  width='100%' >
                 {convasation && <ChatUI 
                   isLoading={isSending} 
                   onSendMsg={handleSendMsg} 

@@ -1,6 +1,6 @@
 import { Box, Textarea, IconButton, VStack, Text, Flex, Spinner, Button, useToast } from "@chakra-ui/react";
-import { BiSend } from "react-icons/bi";
-import { useEffect, useState } from "react";
+import { BiArrowBack, BiSend } from "react-icons/bi";
+import { useEffect, useRef, useState } from "react";
 import { type Message } from "@prisma/client";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
@@ -17,25 +17,34 @@ const ChatUI = ({
   isLoading: boolean;
 }) => {
   const router = useRouter();
+  // Create a ref for the chat container
+  const chatContainerRef = useRef<any>(null);
   const context = api.useContext()
   const [messageInput, setMessageInput] = useState<string>('');
   const [isInputDisabled, setIsInputDisabled] = useState(false);
-  const [isAdaTyping, setIsAdaTyping] = useState(false);
   const [timeRemaining, setTimeRemaining] = useState(600); // 10 minutes in seconds
 
   const toast = useToast();
   const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Chat'})
   const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
 
+
+  const goBack = async () => {
+    await router.back()
+  }
   const handleSendMessage =  () => {
     if (messageInput.trim() !== '') {
       setMessageInput('');
       setIsInputDisabled(true); // Disable input while sending
-      setIsAdaTyping(true); // Ada is typing
       onSendMsg(messageInput);
-      setIsAdaTyping(false); // Ada finished typing
       setIsInputDisabled(false); // Enable input
     }
+
+      // Scroll to the bottom of the chat container
+      if (chatContainerRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+      }
   };
 
   const handleSessionExpired = () => {
@@ -69,6 +78,7 @@ const ChatUI = ({
     if (isLoading) {
       // If loading, disable input
       setIsInputDisabled(true);
+    
     } else {
       setIsInputDisabled(false);
     }
@@ -100,16 +110,23 @@ const ChatUI = ({
       h="100vh"
       display="flex"
       flexDirection="column"
+     bg="inherit"
+
     >
-      <Box py={4} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
+      <Box px={3}>
+      <Box mt={4}   >
+      <IconButton  icon={<BiArrowBack />} color={'sage.500'} aria-label={"back-btn"} onClick={() => void goBack()}/>
+      </Box>
+      <Box  py={4} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
 
      
       {/* Timer */}
-      <Text alignSelf="center" my={2} color="red.400">
+      <Text alignSelf="center" fontSize={'sm'}  fontWeight={'bold'} color="red.300">
         Time Remaining: {formatTime(timeRemaining)}
       </Text>
       <Button  variant={'solid'} colorScheme="sage" onClick={handleSessionExpired}>Complete</Button>
       </Box>
+      
 
       {/* Chat Messages */}
       <VStack
@@ -117,44 +134,45 @@ const ChatUI = ({
         spacing={4}
         align="stretch"
         overflowY="auto"
-        bgGradient="linear(to-b, sage.50, white)"
+  
         borderRadius="md"
-        px={6}
+        
         py={20}
         maxH="calc(100vh - 250px)"
+        ref={chatContainerRef}
       >
         {msgs.map((message, index) => (
           <Box
             key={index}
-            bg="white"
+            bg="purple.500"
+            color="white"
             p={4}
             borderRadius="md"
-            boxShadow="md"
-            _odd={{ bg: "gray.100" }}
+            boxShadow="xs"
+            _odd={{ bg: "gray.600", color: 'white' }}
           >
-             <Box  fontSize={'sm'} as='span'>{message.sender === 'user'? (user?.name as string ): 'Ada'}</Box>
+             <Box  fontSize={'sm'} as='span'>{message.sender === 'user'? 'You': 'Ada'}</Box>
              <Text> {message.content}</Text>
           </Box>
         ))}
         {/* Ada is Typing */}
-        {isAdaTyping && (
+        {isLoading && (
           <Box  bg="white" p={4} borderRadius="md" boxShadow="md" _odd={{ bg: "gray.100" }}>
             <Text fontSize={'sm'} as='span'>Ada is typing...</Text>
             <Spinner size="xs" ml={2} />
           </Box>
         )}
       </VStack>
+      </Box>
 
       {/* Chat Input and Send Button */}
       <Flex
-        mb={6}
         p={4}
         bg="white"
         bottom="0"
         alignItems="center"
-       
         width="100%"
-        borderTopWidth="1px"
+        borderWidth="1px"
       >
         <Textarea
           value={messageInput}
@@ -174,7 +192,7 @@ const ChatUI = ({
         />
         <IconButton
           icon={<BiSend />}
-          colorScheme="blue"
+          colorScheme="sage"
           aria-label="Send"
           onClick={() => void handleSendMessage()}
           isDisabled={isInputDisabled}

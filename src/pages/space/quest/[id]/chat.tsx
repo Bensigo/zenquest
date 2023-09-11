@@ -6,9 +6,9 @@ import { type NextPage } from "next";
  const  Chat: NextPage  = () => {
     return (
         <>
-            <AppLayout>
+         
                 <QuestTherapyWrapper />
-            </AppLayout>
+          
         </>
     )
  }
