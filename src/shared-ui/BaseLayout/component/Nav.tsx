@@ -1,3 +1,4 @@
+import { signIn } from "next-auth/react";
 import {
     Box,
     Flex,
@@ -75,6 +76,7 @@ import {
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
+              onClick={() => void signIn()}
               bg={useColorModeValue('primary', 'primary')}
               href={'#'}
               _hover={{

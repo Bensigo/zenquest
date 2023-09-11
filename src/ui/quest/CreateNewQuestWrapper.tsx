@@ -7,7 +7,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { BiCheck } from "react-icons/bi";
+import { BiCheck, BiX } from "react-icons/bi";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
 import { addDays, format, isSameDay } from "date-fns";
@@ -18,9 +18,11 @@ import { AddToCalendarButton } from "add-to-calendar-button-react";
 import { api } from "@/utils/api";
 import "react-datepicker/dist/react-datepicker.css";
 
+
 const CreateNewQuestWrapper = () => {
   const start = addDays(new Date(), 1)
   const [selectedDate, setSelectedDate] = useState(start);
+  const [isClose, setClose] = useState(false)
   const [goal, setGoal] = useState("");
   const toast = useToast();
   const router = useRouter();
@@ -83,7 +85,7 @@ const CreateNewQuestWrapper = () => {
         Quest Goal setup
       </Heading>
       <Box>
-        <Box
+       {!isClose && <Box
           bg="blue.100"
           p={6}
           mb={3}
@@ -95,6 +97,10 @@ const CreateNewQuestWrapper = () => {
           color="blue.700"
           mt={2}
         >
+          <Box display={'flex'} width={'100%'} justifyContent={'end'}>
+          <IconButton onClick={() => setClose(true)} size={'md'} aria-label={"close-info"} color={'red.400'} icon={<BiX />}  />
+          </Box>
+          
           Note:<br/> 
           1. Writing your goal is an effective way to turn your aspirations
           into reality. By applying the SMART technique (Specific, Measurable,
@@ -102,7 +108,7 @@ const CreateNewQuestWrapper = () => {
           objectives. Happy goal-setting! <br />
           2. Incorporating your quest into your calendar enhances your chances of accomplishing them.
 
-        </Box>
+        </Box>}
 
         <Box>
           <Box display={"flex"} gap={2} flexDir={"column"}>
@@ -110,8 +116,9 @@ const CreateNewQuestWrapper = () => {
               placeholder="write your goal here..."
               bg={"gray.200"}
               value={goal}
+              _focus={{ border: 'none'}}
               onChange={(e) => setGoal(e.target.value)}
-              h={"350px"}
+              h={"100px"}
               variant={"filled"}
             />
             <HStack spacing={3}>
