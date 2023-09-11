@@ -98,7 +98,7 @@ const CreateNewQuestWrapper = () => {
           mt={2}
         >
           <Box display={'flex'} width={'100%'} justifyContent={'end'}>
-          <IconButton onClick={() => setClose(true)} size={'md'} aria-label={"close-info"} color={'red.400'} icon={<BiX />}  />
+          <IconButton onClick={() => setClose(true)} size={'sm'} aria-label={"close-info"}  color={'blue.400'} icon={<BiX />}  />
           </Box>
           
           Note:<br/> 

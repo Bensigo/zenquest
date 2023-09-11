@@ -41,10 +41,7 @@ const ChatUI = ({
     }
 
       // Scroll to the bottom of the chat container
-      if (chatContainerRef.current) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-        chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-      }
+     
   };
 
   const handleSessionExpired = () => {
@@ -75,12 +72,21 @@ const ChatUI = ({
   };
 
   useEffect(() => {
+    if (chatContainerRef.current) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+
+  }, [msgs])
+
+  useEffect(() => {
     if (isLoading) {
       // If loading, disable input
       setIsInputDisabled(true);
     
     } else {
       setIsInputDisabled(false);
+     
     }
 
     const timer = setInterval(() => {
@@ -157,9 +163,8 @@ const ChatUI = ({
         ))}
         {/* Ada is Typing */}
         {isLoading && (
-          <Box  bg="white" p={4} borderRadius="md" boxShadow="md" _odd={{ bg: "gray.100" }}>
+          <Box  bg="inherit" p={4} borderRadius="md" boxShadow="xs" _odd={{ bg: "gray.600", color: 'white' }}>
             <Text fontSize={'sm'} as='span'>Ada is typing...</Text>
-            <Spinner size="xs" ml={2} />
           </Box>
         )}
       </VStack>
@@ -199,22 +204,6 @@ const ChatUI = ({
           borderRadius="md"
         />
       </Flex>
-
-      {/* Session Expired Button */}
-      {isInputDisabled && (
-        <Button
-          position="absolute"
-          bottom="0"
-          isLoading={isCompleteQuestActivityLoading}
-          left="50%"
-          transform="translateX(-50%)"
-          mb={4}
-          colorScheme="sage"
-          onClick={handleSessionExpired}
-        >
-          Complete
-        </Button>
-      )}
     </Box>
   );
 };
