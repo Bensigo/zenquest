@@ -17,7 +17,10 @@ const JournalWrapper = () => {
     isLoading,
     isFetched,
     data: journals,
+    refetch
   } = api.journal.listPaginated.useQuery({ take: 20 });
+
+  const ctx = api.useContext();
 
   const cardbg = useColorModeValue("sage.100", "gray.700")
 
@@ -55,9 +58,9 @@ const JournalWrapper = () => {
         <InfiniteScroll
           style={{ width: "100%", padding: 0 }}
           loader={isLoading ? <>loading....</>: <></>}
-          dataLength={journals.length || 1000} //This is important field to render the next data
-          next={() => {
-            //
+          dataLength={journals.length || 1000}
+          next={async () => {
+            await ctx.journal.listPaginated.refetch({ take: journals.length + 20 })
           }}
           hasMore={true}
           endMessage={
@@ -65,9 +68,8 @@ const JournalWrapper = () => {
               Yay! You have seen it all
             </Text>
           }
-          // below props only if you need pull down functionality
-          refreshFunction={() => {
-            //
+          refreshFunction={async () => {
+            await refetch()
           }}
           pullDownToRefresh
           pullDownToRefreshThreshold={50}

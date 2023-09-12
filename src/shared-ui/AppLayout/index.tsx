@@ -35,7 +35,7 @@ import {
   BiTrip,
   BiWinkSmile,
 } from "react-icons/bi";
-import router, { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import LevelDisplay from "./components/Level";
 import { api } from "@/utils/api";
 

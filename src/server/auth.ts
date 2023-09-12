@@ -5,11 +5,8 @@ import {
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import AppleProvider from 'next-auth/providers/apple'
 import GoogleProvider from 'next-auth/providers/google'
-import EmailProvider from 'next-auth/providers/email'
-
-import { env } from "@/env.mjs";
+// import EmailProvider from 'next-auth/providers/email'
 import { prisma } from "@/server/db";
 import { Level, PrismaClient } from "@prisma/client";
 

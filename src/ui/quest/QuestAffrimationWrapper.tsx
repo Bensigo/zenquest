@@ -1,9 +1,10 @@
-import { Box, Button, Skeleton, Text } from "@chakra-ui/react";
+import { Box, Button, IconButton, Skeleton, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { InfoNote } from "./components/InfoNote";
 import { api } from "@/utils/api";
 import { useRouter } from "next/router";
 import { AffirmationCard } from "../space-affrimations/AffirmationWrapper";
+import { BiArrowBack } from "react-icons/bi";
 
 export const QuestAffrimationWrapper = () => {
   const router = useRouter();
@@ -30,10 +31,22 @@ export const QuestAffrimationWrapper = () => {
     }
   }, );
 
+  const goBack = () => {
+    router.back()
+  }
 
   return (
    
       <Box pb={5}>
+          <Box mt={4} mb={3}>
+              <IconButton
+                icon={<BiArrowBack />}
+                size={"md"}
+                color={"sage.500"}
+                aria-label={"back-btn"}
+                onClick={goBack}
+              ></IconButton>
+            </Box>
         <Skeleton isLoaded={isFetched}>
         {!hideInfo && <InfoNote>
             <Box my={1} display={'flex'}width={'100%'}  justifyContent={'end'}>

@@ -15,6 +15,7 @@ import { BsArrowUpRight } from 'react-icons/bs'
 type ZenQuestCardProps = {
    title?: string;
    description?: string,
+   isActive: boolean; 
    btnText?: string
    img?: string,
    onClick: () => void;
@@ -24,26 +25,25 @@ type ZenQuestCardProps = {
 
 export default function ZenQuestCard(props: ZenQuestCardProps) {
  
-
+ 
   return (
 
       <Box
-        w="100%"
-        rounded={'sm'}
-       
+        w="inherit"
+        rounded={'sm'} 
         overflow={'hidden'}
         bg={useColorModeValue("inherit", "gray.700")}
         boxShadow={'xs'}>
         
         <Box p={4}>
           
-          <Heading color={useColorModeValue("sage.500", "white")} fontSize={{ base: "md", lg: '2xl'}} noOfLines={1}>
+          <Heading mb={2}  color={useColorModeValue("sage.500", "white")} fontSize={{ base: "md", lg: 'lg'}} noOfLines={1}>
          {props.description}
           </Heading>
           {/* <Text fontWeight={'semibold'} color={useColorModeValue("inherit", "white")} noOfLines={2}>
             {props.description}
           </Text> */}
-          <Badge colorScheme='green' mt={2} p={2} rounded={'md'}>
+          <Badge colorScheme={ props.isActive ?'green': 'gray'} mt={2} p={2} rounded={'md'}>
             Day {props.currentDay() + 1} of {props.totalDays()}
           </Badge>
         </Box>

@@ -16,7 +16,6 @@ import { useRouter } from "next/router";
 const MobileNavItem = ({ icon, label }: { label: string; icon: IconType }) => {
   const router = useRouter();
   const getRoute = (() => {
-    const currentPath = router.route;
     const transformPath = label.toLowerCase().replace(" ", "-");
     
     return `/space/${transformPath === 'home'? '': transformPath}`;

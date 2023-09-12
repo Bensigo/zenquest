@@ -98,6 +98,20 @@ import {
     const linkColor = useColorModeValue('gray.600', 'gray.200');
     const linkHoverColor = useColorModeValue('gray.800', 'white');
     const popoverContentBgColor = useColorModeValue('white', 'gray.800');
+
+
+    const goToRoute = (route: string | undefined) => {
+      if (route){
+        const targetElement = document.getElementById(route);
+        console.log({ targetElement, route })
+        if (targetElement){
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+     
+      
+    }
+
   
     return (
       <Stack direction={'row'} spacing={4}>
@@ -110,6 +124,7 @@ import {
                   href={navItem.href ?? '#'}
                   fontSize={'sm'}
                   fontWeight={500}
+                  onClick={() => void goToRoute(navItem.href)}
                   color={linkColor}
                   _hover={{
                     textDecoration: 'none',
@@ -142,11 +157,23 @@ import {
   };
   
   const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
+
+    const goToRoute = (route: string | undefined) => {
+      if (route){
+        const targetElement = document.getElementById(route);
+        if (targetElement){
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+     
+      
+    }
     return (
       <Link
         href={href}
         role={'group'}
         display={'block'}
+        onClick={() => goToRoute(href)}
         p={2}
         rounded={'md'}
         _hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}>
@@ -190,6 +217,18 @@ import {
   
   const MobileNavItem = ({ label, children, href }: NavItem) => {
     const { isOpen, onToggle } = useDisclosure();
+
+    
+    const goToRoute = (route: string | undefined) => {
+      if (route){
+        const targetElement = document.getElementById(route);
+        if (targetElement){
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+     
+      
+    }
   
     return (
       <Stack spacing={4} onClick={children && onToggle}>
@@ -198,6 +237,7 @@ import {
           as={Link}
           href={href ?? '#'}
           justify={'space-between'}
+          onClick={() => goToRoute(href)}
           align={'center'}
           _hover={{
             textDecoration: 'none',
@@ -251,11 +291,7 @@ import {
       href: '#features',
     },
     {
-        label: "Testimonials",
-        href: "#testimonials"
-    },
-    {
-      label: 'About Us',
-      href: '#',
+        label: "What we offer",
+        href: "#offer"
     },
   ];

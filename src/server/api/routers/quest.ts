@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { extractArrayFromString, queryOpenAi } from "@/utils/openai"; // Provide the correct relative path to the queryOpenAi function
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { addDays, isSameDay } from "date-fns";
+import { isSameDay } from "date-fns";
 import { type Quest } from "@prisma/client";
 import { prisma } from "@/server/db";
 import { getLevel } from "../utils";

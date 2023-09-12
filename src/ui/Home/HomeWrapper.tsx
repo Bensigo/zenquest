@@ -104,6 +104,7 @@ export const HomeWrapper = () => {
           fontSize={{ sm: "2xl", lg: "5xl", base: "lg" }}
           color={"sage.500"}
           fontWeight={"extrabold"}
+          id="#features"
         >
           Features
         </Heading>
@@ -115,7 +116,7 @@ export const HomeWrapper = () => {
         display={"flex"}
         justifyContent={"center"}
       >
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={8}>
+        <SimpleGrid columns={{ base: 1, md: 2 }} gap={8}>
           {features.map((feature, i) => (
             <FeaturesCard
               key={i}
@@ -136,6 +137,7 @@ export const HomeWrapper = () => {
             boxShadow={'sm'}
             minW={{ md: "700px", base: "100%" }}
             py={8}
+            id="#offer"
           >
             <Heading
               display={"flex"}
@@ -261,7 +263,7 @@ const FeaturesCard = ({ imageSrc, title }: Features) => {
       p={4}
       boxShadow={'sm'}
       borderRadius="md"
-      bg={useColorModeValue("green.100", "gray.800")}
+      bg={'blue.100'}
       width={["100%", "400px"]}
     >
       <Stack spacing={3} alignItems={"center"}>

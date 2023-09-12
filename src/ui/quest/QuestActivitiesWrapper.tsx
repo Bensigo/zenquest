@@ -11,6 +11,8 @@ import { FaSmile, FaMeh, FaFrown, FaSadTear } from 'react-icons/fa';
 import { api } from '@/utils/api';
 import cookie from 'js-cookie'
 import RecommendedActivities from '@/ui/quest/components/Recommendations';
+import { BiArrowBack } from 'react-icons/bi';
+import { useRouter } from 'next/router';
 
 
 
@@ -32,6 +34,7 @@ const QuestActivityWrapper = () => {
   const [selectedMood, setSelectedMood] = useState<Mood>();
   const [showMoodCard, setShowMoodCard] = useState(false)
   const [score, setScore] = useState<number>()
+  const router = useRouter()
 
   const { mutate: createMood, isLoading } = api.metric.createMoodMetric.useMutation()
 
@@ -80,9 +83,20 @@ const QuestActivityWrapper = () => {
       throw new Error('Invalid mood value');
     }
   }
-
+  const goBack = () => {
+    router.back()
+  }
   return (
      <Box>
+        <Box mt={4} mb={3}>
+              <IconButton
+                icon={<BiArrowBack />}
+                size={"md"}
+                color={"sage.500"}
+                aria-label={"back-btn"}
+                onClick={goBack}
+              ></IconButton>
+            </Box>
 
         {showMoodCard && (
           <Flex flexDir="column" align="center" justify="center" minHeight="100vh">

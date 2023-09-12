@@ -1,7 +1,8 @@
-import { Button, Box, Text, useToast, useColorModeValue } from "@chakra-ui/react";
+import { Button, Box, Text, useToast, useColorModeValue, IconButton } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { QUEST_NEXT_STEP } from "../space-affrimations/AffirmationWrapper";
 import { api } from "@/utils/api";
+import { BiArrowBack } from "react-icons/bi";
 
 export const DeepBreathWrapper = () => {
     const router = useRouter()
@@ -40,7 +41,22 @@ export const DeepBreathWrapper = () => {
       
     }
 
+    const goBack = () => {
+      router.back()
+    }
+
     return (
+      <Box>
+         <Box mt={4} mb={3}>
+              <IconButton
+                icon={<BiArrowBack />}
+                size={"md"}
+                color={"sage.500"}
+                aria-label={"back-btn"}
+                onClick={goBack}
+              ></IconButton>
+            </Box>
+     
       <Box p={6} shadow="sm" borderRadius="md" bg={useColorModeValue("white", "gray.700")}>
         {/* Embedded YouTube Video */}
         <video controls width="100%" height={"auto"}>
@@ -65,6 +81,7 @@ export const DeepBreathWrapper = () => {
         <Button isLoading={isCompleteQuestActivityLoading} onClick={handleComplete} mt={4} colorScheme="sage">
           Complete
         </Button>
+      </Box>
       </Box>
     );
   };

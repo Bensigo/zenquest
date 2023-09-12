@@ -1,4 +1,4 @@
-import { Box, Flex, Text, Icon, Tooltip } from '@chakra-ui/react';
+import { Box, Text, Icon, Tooltip } from '@chakra-ui/react';
 import { FaTrophy, FaMedal } from 'react-icons/fa';
 
 interface LevelDisplayProps {

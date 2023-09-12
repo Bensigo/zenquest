@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
-import { getSentimentAnalysis } from "@/utils/openai";
 
 export const journalRouter = createTRPCRouter({
   createOrUpdateJournal: protectedProcedure
@@ -202,21 +201,3 @@ export const journalRouter = createTRPCRouter({
   //     return newDaily;
   //   }),
 });
-
-const calculateMood = async (userMood: number, theraputicalJournal: {question: string, answer: string}[]): Promise<number> => {
-  const sentimentAnalysisMood = await getSentimentAnalysis(theraputicalJournal);
-  const currUserMood = userMood / 10;
-  const correlation = Math.abs(currUserMood - sentimentAnalysisMood);
-  let mood = currUserMood;
-
-  // Adjust the final mood based on the correlation
-  if (correlation >= 0.1) {
-    if (currUserMood > sentimentAnalysisMood) {
-      mood -= correlation;
-    } else {
-      mood += correlation;
-    }
-  }
-
-  return parseFloat(mood.toFixed(2));
-};

@@ -71,6 +71,19 @@ import {
   };
   
   export default function LargeWithNewsletter() {
+
+    const goToRoute = (route: string | undefined) => {
+      if (route){
+        const targetElement = document.getElementById(route);
+        console.log({ targetElement, route })
+        if (targetElement){
+          targetElement.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+     
+      
+    }
+
     return (
       <Box
         px={{ base: 8 }}
@@ -85,14 +98,11 @@ import {
                 <Logo color={useColorModeValue('gray.700', 'white')} />
               </Box>
               <Text fontSize={'sm'}>
-                © 2023 Harmony Space. All rights reserved
+                © 2023 ZenQuest. All rights reserved
               </Text>
               <Stack direction={'row'} spacing={6}>
                 <SocialButton label={'Twitter'} href={'#'}>
                   <FaTwitter />
-                </SocialButton>
-                <SocialButton label={'YouTube'} href={'#'}>
-                  <FaYoutube />
                 </SocialButton>
                 <SocialButton label={'Instagram'} href={'#'}>
                   <FaInstagram />
@@ -100,20 +110,9 @@ import {
               </Stack>
             </Stack>
             <Stack align={'flex-start'}>
-              <ListHeader>Company</ListHeader>
-              <Link href={'#'}>About us</Link>
-              <Link href={'#'}>Blog</Link>
-              <Link href={'#'}>Contact us</Link>
-              <Link href={'#'}>Pricing</Link>
-              <Link href={'#'}>Testimonials</Link>
-            </Stack>
-            <Stack align={'flex-start'}>
-              <ListHeader>Support</ListHeader>
-              <Link href={'#'}>Help Center</Link>
-              <Link href={'#'}>Terms of Service</Link>
-              <Link href={'#'}>Legal</Link>
-              <Link href={'#'}>Privacy Policy</Link>
-              <Link href={'#'}>Satus</Link>
+              <ListHeader>Product</ListHeader>
+              <Link href={'#features'} onClick={() => goToRoute("#features")}>Features</Link>
+              <Link href={'#offer'} onClick={() => goToRoute("#offer")}>What we offer</Link>
             </Stack>
           </SimpleGrid>
         </Container>

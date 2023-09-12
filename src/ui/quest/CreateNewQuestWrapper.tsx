@@ -7,7 +7,7 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { BiCheck, BiX } from "react-icons/bi";
+import { BiArrowBack, BiCheck, BiX } from "react-icons/bi";
 import DatePicker from "react-datepicker";
 import { useState } from "react";
 import { addDays, format, isSameDay } from "date-fns";
@@ -73,14 +73,23 @@ const CreateNewQuestWrapper = () => {
     );
   };
 
+  const goBack = () => {
+    router.back()
+  }
+
   return (
     <Box
-      py={6}
-      minH={"70vh"}
-      height={"inherit"}
+      py={{ base: 2, md: 6}}
+      mb={{ base: 8, md: 0}}
+      height={"100%"}
       display={"flex"}
       flexDir="column"
     >
+      <Box mt={4}  mb={3} >
+          <IconButton  icon={<BiArrowBack />} size={'md'} color={'sage.500'} aria-label={"back-btn"} onClick={() => void goBack()}>
+            Back
+          </IconButton>  
+      </Box>
       <Heading mb={4} fontWeight={"black"} fontSize={"2xl"} color="primary">
         Quest Goal setup
       </Heading>

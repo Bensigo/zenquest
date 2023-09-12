@@ -2,7 +2,7 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { addMinutes } from "date-fns";
 import { chatCompletionAi } from "@/utils/openai";
-import { PrismaClient } from "@prisma/client";
+import { type PrismaClient } from "@prisma/client";
 
 const startTherapyPrompt = (goal: string) => `You step into the role of a compassionate therapist,
  dedicated to guiding someone towards their goal of '${goal}'. for today session, what thoughtful 
