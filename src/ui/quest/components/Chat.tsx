@@ -26,11 +26,11 @@ const ChatUI = ({
 
   const toast = useToast();
   const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Chat'})
-  const { isLoading: isCompleteQuestActivityLoading, mutate } = api.activity.completeQuestActivity.useMutation()
+  const {  mutate } = api.activity.completeQuestActivity.useMutation()
 
 
-  const goBack = async () => {
-    await router.back()
+  const goBack =  () => {
+    router.back()
   }
   const handleSendMessage =  () => {
     if (messageInput.trim() !== '') {
