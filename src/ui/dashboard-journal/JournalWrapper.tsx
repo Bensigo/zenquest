@@ -4,6 +4,7 @@ import {
   Button,
   Flex,
   Skeleton,
+  Image,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -35,8 +36,17 @@ const JournalWrapper = () => {
 
   return (
     <Box py={4}>
-      <Box borderRadius={'lg'} px={5} py={6} my={{ base: 4, md: 6 }} justifyContent={'center'}  bg={cardbg} height={'250px'}  alignItems={'center'} display={'flex'}>
-        <Text fontSize={{ base: "md", md: "lg" }} fontStyle={"italic"} fontWeight={'semibold'}  color={useColorModeValue('gray.600' , "white")}>
+      <Image
+        boxShadow={{md: 'xs'}} 
+        src={'https://res.cloudinary.com/dczlbbkdg/image/upload/v1694680194/dashboard-image_krhigt.jpg'}
+        loading="lazy"
+        h={{ base: '300px', md: '400px' }} 
+        w="100%"
+        objectFit={{ base: 'scale-down', md: "cover" }} 
+        alt="bg-journal"
+      />
+      <Box  py={2}  justifyContent={'center'}  alignItems={'center'} display={'flex'}>
+        <Text fontSize={{ base: "sm", md: "lg" }} fontStyle={"italic"} fontWeight={'light'}  color={useColorModeValue('gray.600' , "white")}>
           {/** eslint-disable-next-line react/no-unescaped-entities */}
           &quot; Life has no limitations except the ones you make
           &quot; - Les Brown
