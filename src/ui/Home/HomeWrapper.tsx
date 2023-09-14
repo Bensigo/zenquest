@@ -73,10 +73,10 @@ export const HomeWrapper = () => {
   return (
     <Box pt={{ base: 8, md: 0 }}>
       <Hero
-        title="Become An Achiever"
-        subtitle="Embark on a transformative journey with ZenQuest, unlocking your inner power to become an unstoppable achiever. Discover success keys, transcend limits, and embrace boundless possibilities."
+        title="ZenQuest: Your Personal Growth Journey Begins Here"
+        subtitle="Set goals, embrace daily quest with meditation, affirmations, and AI support. Your part to personal growth start now."
         onClick={() => void signIn()}
-        ctaText="Start Your Quest"
+        ctaText="Start Your Growth Journey"
         image="https://images.pexels.com/photos/4065891/pexels-photo-4065891.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2?auto=compress&cs=tinysrgb&h=650&w=940"
       />
 
