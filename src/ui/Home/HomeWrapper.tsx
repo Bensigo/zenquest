@@ -183,7 +183,7 @@ export const HomeWrapper = () => {
               </Box>
               <VStack align={'start'}>
                 {/* <Text fontWeight={600}>{data.title}</Text> */}
-                <Text color={'gray.600'}>{data.description}</Text>
+                <Text color={'gray.600'} fontSize={{ md: 'lg', base: 'md'}}>{data.description}</Text>
               </VStack>
             </HStack>
           ))}
@@ -265,7 +265,7 @@ const FeaturesCard = ({ imageSrc, title }: Features) => {
         />
         <Text
           textAlign={"center"}
-          fontSize={{ md: "sm", base: "sm" }}
+          fontSize={{ md: "lg", base: "md" }}
           fontWeight={"medium"}
           color={"gray.600"}
         >
