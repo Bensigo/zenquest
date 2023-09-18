@@ -119,7 +119,7 @@ export const HomeWrapper = () => {
     <Box pt={{ base: 8, md: 12 }}  >
       <Hero
         title="Your Personal Growth Journey Begins Here"
-        subtitle="Set goals, embrace daily quest with meditation, affirmations, and AI support. Your part to personal growth start now."
+        subtitle="Set goals and embrace daily quests with meditation, affirmations, and AI support. Your journey to personal growth starts now."
         onClick={() => void signIn()}
         ctaText="Start Your Growth Journey"
         image=""

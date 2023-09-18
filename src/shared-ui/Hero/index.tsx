@@ -53,7 +53,7 @@ export default function Hero({
             lineHeight={'tall'}
 
             fontSize={{ md: 'lg', base: 'md'}}
-            textAlign={["center", "center", "left", "left"]}
+            textAlign={"center"}
           >
             {subtitle}
           </Heading>
