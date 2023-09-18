@@ -10,7 +10,7 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react';
   import { type ReactNode } from 'react';
-  import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+  import { FaInstagram, FaTwitter } from 'react-icons/fa';
   
   const Logo = (props: any) => {
     return (
@@ -112,7 +112,9 @@ import {
             <Stack align={'flex-start'}>
               <ListHeader>Product</ListHeader>
               <Link href={'#features'} onClick={() => goToRoute("#features")}>Features</Link>
-              <Link href={'#offer'} onClick={() => goToRoute("#offer")}>What we offer</Link>
+              <Link href={'#howItWork'} onClick={() => goToRoute("#howItWork")}>How it work</Link>
+               {/* eslint-disable-next-line react/no-unescaped-entities */}
+              <Link href={'#faq'} onClick={() => goToRoute("#faq")}>FAQ's</Link>
             </Stack>
           </SimpleGrid>
         </Container>

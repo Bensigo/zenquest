@@ -5,36 +5,57 @@ import {
   SimpleGrid,
   Text,
   Stack,
-  useColorModeValue,
   Image,
   HStack,
   Center,
-  IconButton,
+  Container,
+  VStack,
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
 } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
-import { BiBot, BiData } from "react-icons/bi";
 
-type ValueType = { imageSrc: string; title: string; description: string };
+type ValueType = { imageSrc: string;  description: string };
 
-const values: ValueType[] = [
+const howItWorks: ValueType[] = [
   {
-    title: "Create a quest",
     imageSrc: "/space/quest.svg",
-    description:
-      "Embark on your journey! Create a quest and start your path to personal growth and achievement with ZenQuest today.",
+    description: "Create a quest by setting your personal goals."
   },
   {
-    title: "Add a goal",
+
     imageSrc: "/space/goal.svg",
-    description:
-      "Define your goals, and let us guide you on the path to turning your dreams into reality.",
+    description: "Add deadlines to your goals with calendar integration"
   },
   {
-    title: "Start Achieving your dreams",
+
     imageSrc: "/space/archiever.svg",
-    description:
-      "Ready to bring your dreams to life? Begin your journey of personal growth and achievement with ZenQuest.",
+    description: "Enjoy daily meditation for calm and focus."
   },
+  {
+
+    imageSrc: "/space/archiever.svg",
+    description:  "Receive tailored affirmations for a positive mindset."
+  },
+  {
+
+    imageSrc: "/space/archiever.svg",
+    description:  "Chat with Ada about your goal, your AI personal assistance"
+  },
+  {
+
+    imageSrc: "/space/archiever.svg",
+    description:  "AI suggests activities aligned with your goals."
+  },
+  {
+
+    imageSrc: "/space/archiever.svg",
+    description:  "Reflect on your journey with the daily reflective journal."
+  },
+  
 ];
 
 type Features = {
@@ -44,102 +65,132 @@ type Features = {
 
 const features: Features[] = [
   {
-    imageSrc: "/space/breathing.svg",
-    title: "Deep Breath",
+    imageSrc: "/space/quest.svg",
+    title: "Set personalized goals that matter to you.",
+  },
+  {
+    imageSrc: "/space/meditation.svg",
+    title: "Daily meditation sessions for inner peace and focus.",
   },
   {
     imageSrc: "/space/affirmation.svg",
-    title: "Daily affirmations",
+    title: "Empowering affirmations tailored to your goals.",
   },
   {
     imageSrc: "/space/chat.svg",
-    title: "Chat with Ada(Ai therapist)",
+    title: "Chat with Ada, your AI assitant to guide you toward your goal.",
   },
   {
     imageSrc: "/space/activity.svg",
-    title: "AI generated daily activity to help achieve your goal",
+    title: "AI-curated quests that lead you toward success.",
   },
   {
     imageSrc: "/space/journal.svg",
-    title: "Journal for reflecting",
-  },
-  {
-    imageSrc: "/space/mood-tracking.svg",
-    title: "Tracking your mood",
+    title: "Reflective journaling to track your journey.",
   },
 ];
 
+type FAQ =  { question: string, answer: string}
+const faqData: FAQ [] = [
+  {
+    question: "What is a Quest?",
+    answer: "A planned action or task created as a step toward achieving a specific goal.",
+  },
+  {
+    question: "How do I create a quest and set my goals?",
+    answer: `Creating a quest is easy! Just go to the "Quest" section, click "Create Quest," and follow the prompts to set your goals`
+  },
+  {
+    question: "Is my journaling private?",
+    answer: "Yes, your journal entries are completely private and secure. Only you can access and view your journal"
+  },
+  {
+    question: "Is my data secure?",
+    answer: "Yes, your data is secure, your personal information is handled with the utmost care and security"
+  },
+  {
+     question: "How does the AI suggest activities aligned with my goals?",
+     answer: "Our AI analyzes your goals and preferences to recommend activities that best support your personal growth journey."
+  }
+]
+
 export const HomeWrapper = () => {
   return (
-    <Box pt={{ base: 8, md: 0 }}>
+    <Box pt={{ base: 8, md: 12 }}  >
       <Hero
         title="Your Personal Growth Journey Begins Here"
         subtitle="Set goals, embrace daily quest with meditation, affirmations, and AI support. Your part to personal growth start now."
         onClick={() => void signIn()}
         ctaText="Start Your Growth Journey"
-        image="https://images.pexels.com/photos/4065891/pexels-photo-4065891.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2?auto=compress&cs=tinysrgb&h=650&w=940"
+        image=""
       />
+       <Box position={'relative'}  w={'100%'} boxShadow={'sm'}  mt={12} bgImg={{ md : "/space/heroImage.svg", base: "/space/heroMobile.svg"}}  height={'90vh'}>
+          {/* <Image alt='hero'   src={}  rounded="1rem" shadow="2xl" /> */}
+        </Box>
 
-      <Box
-        px={4}
-        py={{ base: 12 }}
-        width="100%"
-        display={"flex"}
-        justifyContent={"center"}
-      >
-        <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
-          {values.map((val, i) => (
-            <ResponsiveCard
-              key={i}
-              title={val.title}
-              description={val.description}
-              imageSrc={val.imageSrc}
-            />
-          ))}
-        </SimpleGrid>
-      </Box>
+       <Box px={{ base: 2, md: 8}}>
 
-      <Center my={4}>
+       <Center my={4}>
         <Heading
-          fontSize={{ sm: "2xl", lg: "5xl", base: "lg" }}
+          fontSize={{ md: "3xl", base: "xl" }}
           color={"sage.500"}
           fontWeight={"extrabold"}
           id="#features"
         >
-          Features
+          Key Features
         </Heading>
       </Center>
-      <Box
-        px={4}
-        py={{ base: 8 }}
-        width="100%"
-        display={"flex"}
-        justifyContent={"center"}
+      <SimpleGrid
+        columns={[1, 3, 3]}
+        px={'20%'}
+        py={2}
+        spacing={"10px"}
+        justifyItems="center"
+        alignItems="center"
       >
-        <SimpleGrid columns={{ base: 1, md: 2 }} gap={8}>
-          {features.map((feature, i) => (
-            <FeaturesCard
-              key={i}
-              title={feature.title}
-              imageSrc={feature.imageSrc}
-            />
+        {features.map((feature, i) => (
+          <FeaturesCard
+            key={i}
+            title={feature.title}
+            imageSrc={feature.imageSrc}
+          />
+        ))}
+      </SimpleGrid>
+       </Box>
+      <Box  py={4} px={{ base: 2, md: 10}}>
+      <Stack mt={8} spacing={4} as={Container} maxW={'3xl'} textAlign={'center'}>
+          <Heading
+            fontSize={{ md: "3xl", base: "xl" }}
+            color={"sage.500"}
+            fontWeight={"extrabold"}
+            id="#howItWork"
+          >
+            How ZenQuest Works
+          </Heading>
+          <Text color={'gray.600'} fontSize={'xl'}>
+          Navigating Your Path to Personal Growth
+        </Text>
+        </Stack>
+        <Container maxW={'6xl'} mt={10}>
+        <SimpleGrid columns={{ base: 1, md: 2, lg: 4 }} spacing={10}>
+          {howItWorks.map((data, i) => (
+            <HStack key={i} align={'top'}>
+              <Box color={'green.400'} px={2}>
+                {/* <Icon as={BiCheck} /> */}
+                 <Box px={3} py={1} bg={'green.400'} rounded="full" color={'white'}>
+                   {i + 1}
+                 </Box>
+              </Box>
+              <VStack align={'start'}>
+                {/* <Text fontWeight={600}>{data.title}</Text> */}
+                <Text color={'gray.600'}>{data.description}</Text>
+              </VStack>
+            </HStack>
           ))}
         </SimpleGrid>
-      </Box>
-      <Box py={4} px={4}>
-        <Center>
-          <Box
-            bg="green.50"
-            gap={3}
-            borderRadius={"lg"}
-            minH={"300px"}
-            mb={12}
-            boxShadow={'sm'}
-            minW={{ md: "700px", base: "100%" }}
-            py={8}
-            id="#offer"
-          >
-            <Heading
+      </Container>
+        <Box mt={10}>
+        <Heading
               display={"flex"}
               justifyContent={"center"}
               lineHeight={"tall"}
@@ -148,123 +199,61 @@ export const HomeWrapper = () => {
               fontWeight={"extrabold"}
               color={"primary"}
               textAlign={"center"}
+              id="#faq"
             >
-              ZenQuest{" "}
-              <Text px={2} color={"gray.700"}>
-                {" "}
-                Offer you
-              </Text>
-            </Heading>
-            <HStack
-              py={7}
-             justifyContent={'center'}
-              alignItems={"center"}
-              spacing={4}
-              width="100%"
-            >
-              <IconButton
-                size={"lg"}
-                bg={'green.200'}
-                disabled
-                _hover={{ cursor: 'arrow' }}
-                aria-label={"data-privacy"}
-                icon={<BiData color="green" />}
-              />
-              <Box>
-                <Heading fontSize={'lg'} fontWeight={'bold'}>Data Privacy</Heading>
-                <Text
-                  lineHeight={"small"}
-                  as="h3"
-                  size="sm"
-                  maxW={{ base: '200px', md: '400px'}}
-                  fontWeight={"medium"}
-                  color={"gray.500"}
-                >
-                  At ZenQuest, we take your data privacy seriously. Rest
-                  assured, your personal information is handled with the utmost
-                  care and security. Your trust means everything to us.
-                </Text>
-              </Box>
-            </HStack>
-            <HStack
-              py={7}
-             justifyContent={'center'}
-              alignItems={"center"}
-              spacing={4}
-              width="100%"
-            >
-              <IconButton
-                size={"lg"}
-                bg={'purple.100'}
-                disabled
-                _hover={{ cursor: 'arrow' }}
-                aria-label={"data-privacy"}
-                icon={<BiBot color="purple" />}
-              />
-              <Box>
-                <Heading fontSize={'lg'} fontWeight={'bold'}>No Spam</Heading>
-                <Text
-                  lineHeight={"small"}
-                  as="h3"
-                  size="sm"
-                  maxW={{ base: '200px', md: '400px'}}
-                  fontWeight={"medium"}
-                  color={"gray.500"}
-                >
-                 { /* eslint-disable-next-line react/no-unescaped-entities */ }
-                  At ZenQuest, we don't sell your data, and we don't spam you.
-                </Text>
-              </Box>
-            </HStack>
-          </Box>
-        </Center>
+              {/**  eslint-disable-next-line react/no-unescaped-entities */}
+              FAQ'S
+              </Heading>
+              <Container maxW={'6xl'} mt={10}>
+                <AccordionCard data={faqData}  />
+               </Container>
+        </Box>
       </Box>
+      <Box>
+      </Box>
+   
+      
     </Box>
   );
 };
 
-const ResponsiveCard = ({ imageSrc, title, description }: ValueType) => {
+
+type AccordionCard = {
+  data: FAQ[]
+}
+
+const  AccordionCard = ({ data }: { data: FAQ[] }) => {
   return (
-    <Box
-      p={4}
-      bg={useColorModeValue("white", "gray.800")}
-      width={["100%", "300px"]}
-    >
-      <HStack align="flex-start" alignItems={"center"} spacing={4} width="100%">
-        <Image
-          src={imageSrc}
-          alt={title}
-          objectFit="contain"
-          height="150px"
-          width="120px"
-        />
-        <Box>
-          <Heading
-            lineHeight={"tall"}
-            as="h3"
-            size="md"
-            fontWeight={"extrabold"}
-            color={"primary"}
-          >
-            {title}
-          </Heading>
-        </Box>
-      </HStack>
-      <Text color="gray.500" mt={1} fontWeight={"semibold"} lineHeight={"tall"}>
-        {description}
-      </Text>
-    </Box>
-  );
-};
+    <Accordion  defaultIndex={[0]} allowMultiple>
+      {data?.map(({ question, answer}, i) => (
+         <AccordionItem  key={i} >
+         <h2>
+           <AccordionButton>
+             <Box as="span" flex='1' textAlign='left'>
+              {question}
+             </Box>
+             <AccordionIcon />
+           </AccordionButton>
+         </h2>
+         <AccordionPanel pb={4}>
+           {answer}
+         </AccordionPanel>
+       </AccordionItem>
+      ))}
+    </Accordion>
+  )
+
+}
+
 
 const FeaturesCard = ({ imageSrc, title }: Features) => {
   return (
     <Box
       p={4}
-      boxShadow={'sm'}
+      boxShadow={"sm"}
       borderRadius="md"
-      bg={'blue.100'}
-      width={["100%", "400px"]}
+      bg={"whiteAlpha.900"}
+      height={"280px"}
     >
       <Stack spacing={3} alignItems={"center"}>
         <Image
@@ -274,15 +263,14 @@ const FeaturesCard = ({ imageSrc, title }: Features) => {
           height="150px"
           width="120px"
         />
-        <Heading
-          as="h3"
+        <Text
           textAlign={"center"}
-          fontSize={{ md: "lg", base: "md" }}
-          fontWeight={"bold"}
-          color={"gray.500"}
+          fontSize={{ md: "sm", base: "sm" }}
+          fontWeight={"medium"}
+          color={"gray.600"}
         >
           {title}
-        </Heading>
+        </Text>
       </Stack>
     </Box>
   );

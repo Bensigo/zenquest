@@ -20,7 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 
 
 const CreateNewQuestWrapper = () => {
-  const start = addDays(new Date(), 1)
+  const start = addDays(new Date(), 7)
   const [selectedDate, setSelectedDate] = useState(start);
   const [isClose, setClose] = useState(false)
   const [goal, setGoal] = useState("");
@@ -135,6 +135,7 @@ const CreateNewQuestWrapper = () => {
                 selected={selectedDate}
                 onChange={handleDateChange}
                 dateFormat="MM/dd/yyyy"
+                required
                 className="chakra-input"
                 customInput={
                   <Input

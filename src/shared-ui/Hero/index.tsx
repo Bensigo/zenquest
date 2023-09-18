@@ -20,28 +20,26 @@ export default function Hero({
     return (
       <Flex
         align="center"
-        justify={{ base: "center", md: "space-around", xl: "space-between" }}
-        direction={{ base: "column-reverse", md: "row" }}
+        direction={'column'}
         wrap="nowrap"
-        minH="70vh"
-        mt={3}
+        mt={14}
         px={{ sm: 4, base: 8 }}
         mb={16}
         {...rest}
       >
+       
         <Stack
           spacing={4}
-          w={{ base: "80%", md: "40%" }}
+          w={{ base: "100%", md: "40%" }}
           px={4}
-          align={["center", "center", "flex-start", "flex-start"]}
+          align={"center"}
         >
           <Heading
             as="h1"
-            size="xl"
+            size={{ base: 'xl', md: "2xl"}}
             fontWeight="bold"
             color="primary.800"
-
-            textAlign={["center", "center", "left", "left"]}
+            textAlign={'center'}
           >
             {title}
           </Heading>
@@ -75,9 +73,6 @@ export default function Hero({
               {ctaText}
             </Button>
         </Stack>
-        <Box w={{ base: "100%", md: "50%" }} mb={{ base: 12, md: 0 }}>
-          <Image alt='hero' src={image}  rounded="1rem" shadow="2xl" />
-        </Box>
       </Flex>
     );
   }

@@ -15,6 +15,8 @@ import {
     useColorModeValue,
     useBreakpointValue,
     useDisclosure,
+    Badge,
+    HStack,
   } from '@chakra-ui/react';
   import {
     BiMenu,
@@ -53,13 +55,18 @@ import {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Text
+            
+           <HStack spacing={1}>
+           <Text
               textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
               fontFamily={'heading'}
               color={useColorModeValue('gray.800', 'white')}>
               Logo
             </Text>
-  
+            <Badge colorScheme="blue" rounded={'sm'}>
+             Beta
+            </Badge>
+           </HStack>
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
             </Flex>
@@ -82,7 +89,7 @@ import {
               _hover={{
                 bg: 'primary',
               }}>
-              Start Your Quest
+              Start Your Journey
             </Button>
           </Stack>
         </Flex>
@@ -291,7 +298,11 @@ import {
       href: '#features',
     },
     {
-        label: "What we offer",
-        href: "#offer"
+        label: "How it work",
+        href: "#howItWork"
     },
+    {
+      label: "FAQ's",
+      href: "#faq"
+    }
   ];
