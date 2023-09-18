@@ -66,7 +66,7 @@ type Features = {
 const features: Features[] = [
   {
     imageSrc: "/space/quest.svg",
-    title: "Set personalized goals that matter to you.",
+    title: "Create personalized goals that matter to you.",
   },
   {
     imageSrc: "/space/meditation.svg",
