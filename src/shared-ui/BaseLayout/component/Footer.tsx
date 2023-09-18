@@ -94,9 +94,7 @@ import {
             templateColumns={{ sm: '1fr 1fr', md: '2fr 1fr 1fr 2fr' }}
             spacing={8}>
             <Stack spacing={6}>
-              <Box>
-                <Logo color={useColorModeValue('gray.700', 'white')} />
-              </Box>
+             
               <Text fontSize={'sm'}>
                 © 2023 ZenQuest. All rights reserved
               </Text>

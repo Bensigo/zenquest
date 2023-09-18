@@ -13,7 +13,7 @@ import {
     PopoverTrigger,
     PopoverContent,
     useColorModeValue,
-    useBreakpointValue,
+    Image,
     useDisclosure,
     Badge,
     HStack,
@@ -56,18 +56,13 @@ import {
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
             
-           <HStack spacing={1}>
-           <Text
-              textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-              fontFamily={'heading'}
-              color={useColorModeValue('gray.800', 'white')}>
-              Logo
-            </Text>
+           <HStack spacing={1} align={'center'}>
+            <Image boxSize={{ base: '60px', md: '100px'}} alt= "logo" src="/space/logo.svg" />
             <Badge colorScheme="blue" rounded={'sm'}>
              Beta
             </Badge>
            </HStack>
-            <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+            <Flex display={{ base: 'none', md: 'flex' }} ml={10} alignItems={'center'}>
               <DesktopNav />
             </Flex>
           </Flex>
@@ -75,6 +70,7 @@ import {
           <Stack
             flex={{ base: 1, md: 0 }}
             justify={'flex-end'}
+            alignItems={'center'}
             direction={'row'}
             spacing={6}>
             <Button
