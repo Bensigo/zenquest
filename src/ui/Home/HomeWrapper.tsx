@@ -201,7 +201,7 @@ export const HomeWrapper = () => {
               textAlign={"center"}
               id="#faq"
             >
-              {/**  eslint-disable-next-line react/no-unescaped-entities */}
+              {/*  eslint-disable-next-line react/no-unescaped-entities */}
               FAQ'S
               </Heading>
               <Container maxW={'6xl'} mt={10}>
