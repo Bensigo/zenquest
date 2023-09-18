@@ -57,7 +57,7 @@ import {
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
             
            <HStack spacing={1} align={'center'}>
-            <Image boxSize={{ base: '60px', md: '100px'}} alt= "logo" src="/space/logo.svg" />
+            <Image height={'auto'} width={'120px'} alt= "logo" src="/space/logo.svg" />
             <Badge colorScheme="blue" rounded={'sm'}>
              Beta
             </Badge>
