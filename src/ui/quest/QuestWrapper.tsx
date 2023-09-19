@@ -3,9 +3,13 @@ import {
   Box,
   Skeleton,
   Text,
+  Card,
   Button,
+  Image,
   useToast,
   IconButton,
+  Stack,
+  Heading,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Quest } from "./components/Quest";
@@ -20,7 +24,7 @@ export const QuestWrapper = () => {
   const router = useRouter();
   const toast = useToast();
   const id = router.query?.id as string;
-  const { data: quest, isFetched } = api.quest.get.useQuery({ id });
+  const { data: quest, isFetched, isLoading } = api.quest.get.useQuery({ id });
   const { data: activeStep } = api.activity.getActiveStep.useQuery({ id });
 
   const { mutate: closeQuest, isLoading: isClosing } =
@@ -49,6 +53,7 @@ export const QuestWrapper = () => {
           onSuccess: () => {
             const refetch = async () => await context.quest.get.invalidate();
             void refetch();
+            void (async () => await router.push(`/space/quest`))()
           },
           onError: (err) => {
             toast({
@@ -92,7 +97,7 @@ export const QuestWrapper = () => {
               </Text>
             )}
           </Box>
-          {quest?.isActive && (
+          {quest?.isActive && activeStep && activeStep.count < 5 && (
             <Box display={"flex"} my={4} width="100%">
               <Button
                 isDisabled={!canCompleteQuest}
@@ -104,14 +109,63 @@ export const QuestWrapper = () => {
               </Button>
             </Box>
           )}
-          {quest && activeStep && (
+          { !isLoading && quest && activeStep && activeStep.count < 5 ? 
             <Quest
               id={id}
               step={activeStep?.count === 5 ? 0 : activeStep.count}
             />
-          )}
+          : <DailyQuestCompleted />}
         </Skeleton>
       </Box>
     </>
   );
 };
+
+
+
+const DailyQuestCompleted = () => {
+  return (
+    <Card
+      py={8}
+      px={4}
+      maxW={{ base: "sm", md: "lg" }}
+      direction={{ md: "row", base: "column-reverse" }}
+      marginBottom={{ md: 4, base: "80px" }}
+      mt={4}
+      justifySelf={{ base: "center" }}
+     
+    >
+     <Box flex={1}>
+     <Stack>
+          
+          <Heading size="md" color={"sage.500"}>
+              Finished for the day 🎉
+            </Heading>
+            <Text py="1" color={"sage.400"}>
+            Well done! Another day, another triumph.
+             Take a moment to relish in your achievements.
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+             You're making progress, one day at a time!
+            </Text>
+      </Stack>
+     </Box>
+      
+      <Box
+        display="flex"
+        maxWidth={{ base: "100%", sm: "150px" }}
+        p={5}
+        justifySelf={{ base: "center", sm: "flex-start" }}
+        maxH={{ base: '120px', md: 'auto'}}
+      >
+        <Image
+          w="100%"
+          h="auto"
+          maxWidth="100%"
+          borderRadius="sm"
+          objectFit={{ base: "contain" }}
+          alt="complete-task" src="/space/finish.svg"
+        />
+      </Box>
+      </Card>
+  )
+}

@@ -15,6 +15,7 @@ import {
   useDisclosure,
   HStack,
   Avatar,
+  Image,
   IconButton,
   useColorMode,
   Skeleton,
@@ -153,9 +154,7 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
+        <Image height={'auto'} width={'120px'} alt= "logo" src="/space/logo.svg" />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {navItems.map((link) => (

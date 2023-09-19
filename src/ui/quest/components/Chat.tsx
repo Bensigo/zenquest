@@ -114,6 +114,7 @@ const ChatUI = ({
       width="100%"
       position="relative"
       h="100vh"
+      px={{md: 10, base: 'none'}}
       display="flex"
       flexDirection="column"
      bg="inherit"
@@ -178,6 +179,9 @@ const ChatUI = ({
         alignItems="center"
         width="100%"
         borderWidth="1px"
+        position="fixed" 
+        left="0" 
+        right="0"
       >
         <Textarea
           value={messageInput}
