@@ -19,13 +19,13 @@ const SEO = ({ title, description, keywords }: SEO) => {
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://zenquest.ai" />
-      <meta property="og:image" content="https://yourwebsite.com/logo.svg" />
+      <meta property="og:image" content="https://zenquest.vercel.app/space/logo.svg" />
 
       {/* Twitter Card meta tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content="https://zenquest.ai/logo.svg" />
+      <meta name="twitter:image" content="https://zenquest.vercel.app/space/logo.svg" />
       
       {/* Add more SEO meta tags here */}
     </Head>
