@@ -109,12 +109,13 @@ export const QuestWrapper = () => {
               </Button>
             </Box>
           )}
-          { !isLoading && quest && activeStep && activeStep.count < 5 ? 
+          {  quest && activeStep && activeStep.count === 5 && <DailyQuestCompleted />}
+          {  quest && activeStep && activeStep.count < 5 &&
             <Quest
               id={id}
               step={activeStep?.count === 5 ? 0 : activeStep.count}
             />
-          : <DailyQuestCompleted />}
+           }
         </Skeleton>
       </Box>
     </>
