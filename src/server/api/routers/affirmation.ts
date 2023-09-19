@@ -1,7 +1,7 @@
 import { extractArrayFromString, queryOpenAi } from "@/utils/openai";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
-const aiPromptForAffirmations = `I want you to generate 20 affirmation, to brighting my day. return answer in an array format, without indexing`
+const aiPromptForAffirmations = `I want you to generate 8 affirmation, to brighting my day. return answer in an array format, without indexing`
 
 export function rawDataToAffirmations(inputString: string): string[] {
   if (!inputString) return [];

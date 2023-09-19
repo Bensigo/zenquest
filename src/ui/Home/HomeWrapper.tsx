@@ -78,11 +78,11 @@ const features: Features[] = [
   },
   {
     imageSrc: "/space/chat.svg",
-    title: "Chat with Ada, your AI assitant to guide you toward your goal.",
+    title: "Chat with Ada, your AI personal assitant, about your goals.",
   },
   {
     imageSrc: "/space/activity.svg",
-    title: "AI-curated quests that lead you toward success.",
+    title: "Ada will suggest activities that align with your goals.",
   },
   {
     imageSrc: "/space/journal.svg",
