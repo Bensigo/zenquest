@@ -125,9 +125,9 @@ export const HomeWrapper = () => {
         ctaText="Start Your Growth Journey"
         image=""
       />
-       <Box position={'relative'} py={4}  w={'100%'} display={'flex'} justifyContent={'center'} alignItems={'self-end'}   mt={12} bgImg={ "/space/homeBg.svg"}  height={'90vh'}>
+       <Box position={'relative'} py={4}  w={'100%'} display={'flex'} justifyContent={'center'} alignItems={'self-end'}   mt={8} bgImg={ "/space/homeBg.svg"}  height={'90vh'}>
           <Image alt='home-img' loading="lazy" display={{ base: 'none', md: 'block'}} width="65%"     src={ '/space/homeMd.svg'} fit={'scale-down'}  rounded="1rem" shadow="sm" />
-          <Image alt='home-img' loading="lazy" display={{ base: 'block', md: 'none'}} width="65%"    src={ '/space/home-480w.svg'} fit={'scale-down'}  rounded="1rem" shadow="xs" />
+          <Image alt='home-img' loading="lazy" display={{ base: 'block', md: 'none'}} width="60%"    src={ '/space/home-480w.svg'} fit={'scale-down'}  rounded="1rem" shadow="xs" />
         </Box>
 
        <Box px={{ base: 2, md: 8}}>
