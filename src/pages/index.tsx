@@ -18,7 +18,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (status === 'authenticated'){
       const goToDasboard = async () => {
-        await router.push('/space/journal')
+        await router.push('/space/quest')
       }
       void goToDasboard();
     }
