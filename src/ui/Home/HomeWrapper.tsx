@@ -121,11 +121,13 @@ export const HomeWrapper = () => {
         title="Your Personal Growth Journey Begins Here"
         subtitle="Set goals and embrace daily quests with meditation, affirmations, and AI support. Your journey to personal growth starts now."
         onClick={() => void signIn()}
+        onLoginClick={() => void signIn()}
         ctaText="Start Your Growth Journey"
         image=""
       />
-       <Box position={'relative'}  w={'100%'} boxShadow={'sm'}  mt={12} bgImg={{ md : "/space/heroImage.svg", base: "/space/heroMobile.svg"}}  height={'90vh'}>
-          {/* <Image alt='hero'   src={}  rounded="1rem" shadow="2xl" /> */}
+       <Box position={'relative'} py={4}  w={'100%'} display={'flex'} justifyContent={'center'} alignItems={'self-end'}   mt={12} bgImg={ "/space/homeBg.svg"}  height={'90vh'}>
+          <Image alt='home-img' loading="lazy" display={{ base: 'none', md: 'block'}} width="65%"     src={ '/space/homeMd.svg'} fit={'scale-down'}  rounded="1rem" shadow="sm" />
+          <Image alt='home-img' loading="lazy" display={{ base: 'block', md: 'none'}} width="65%"    src={ '/space/home-480w.svg'} fit={'scale-down'}  rounded="1rem" shadow="xs" />
         </Box>
 
        <Box px={{ base: 2, md: 8}}>

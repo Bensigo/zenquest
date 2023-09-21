@@ -6,7 +6,8 @@ type Hero = {
     subtitle:string,
     image: string,
     ctaText: string,
-    onClick: () => void
+    onClick: () => void,
+    onLoginClick: () => void
   };
 
 export default function Hero({
@@ -14,6 +15,7 @@ export default function Hero({
     subtitle,
     image,
     onClick,
+    onLoginClick,
     ctaText,
     ...rest
   }: Hero) {
@@ -71,6 +73,18 @@ export default function Hero({
               size="md"
             >
               {ctaText}
+            </Button>
+            <Button
+              colorScheme="teal"
+              variant={'ghost'}
+              borderRadius="8px"
+              onClick={onLoginClick}
+              py="4"
+              px="8"
+              lineHeight="1"
+              size="md"
+            >
+              Sign In
             </Button>
         </Stack>
       </Flex>

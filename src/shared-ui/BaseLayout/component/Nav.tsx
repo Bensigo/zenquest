@@ -85,7 +85,7 @@ import {
               _hover={{
                 bg: 'primary',
               }}>
-              Start Your Journey
+              Sign In
             </Button>
           </Stack>
         </Flex>
