@@ -10,7 +10,7 @@ import {
     useColorModeValue,
   } from '@chakra-ui/react';
   import { type ReactNode } from 'react';
-  import { FaInstagram, FaTwitter } from 'react-icons/fa';
+  import { FaDiscord, FaInstagram, FaTwitter } from 'react-icons/fa';
   
   const Logo = (props: any) => {
     return (
@@ -99,11 +99,14 @@ import {
                 © 2023 ZenQuest. All rights reserved
               </Text>
               <Stack direction={'row'} spacing={6}>
-                <SocialButton label={'Twitter'} href={'#'}>
+                <SocialButton label={'Twitter'} href={'https://twitter.com/zenQuestAi'} >
                   <FaTwitter />
                 </SocialButton>
-                <SocialButton label={'Instagram'} href={'#'}>
+                <SocialButton label={'Instagram'} href={'https://www.instagram.com/zenQuest.ai'}>
                   <FaInstagram />
+                </SocialButton>
+                <SocialButton label={'Discord'} href='https://discord.gg/GW4NtjyJsT'>
+                  <FaDiscord />
                 </SocialButton>
               </Stack>
             </Stack>
