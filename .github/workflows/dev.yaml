@@ -24,7 +24,13 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: remove existing variables
-        run: vercel env rm preview  --token=${{ secrets.VERCEL_TOKEN }}  
+        run: | 
+          vercel env rm GOOGLE_ID preview  --token=${{ secrets.VERCEL_TOKEN }} 
+          vercel env rm GOOGLE_SECRET preview  --token=${{ secrets.VERCEL_TOKEN }}  
+          vercel env rm DATABASE_URL preview  --token=${{ secrets.VERCEL_TOKEN }}  
+          vercel env rm NEXTAUTH_SECRET preview  --token=${{ secrets.VERCEL_TOKEN }}  
+          vercel env rm NEXTAUTH_URL preview  --token=${{ secrets.VERCEL_TOKEN }}   
+          vercel env rm OPEN_AI preview  --token=${{ secrets.VERCEL_TOKEN }}   
       - name: Add env variable to cloud
         run: |
           GOOGLE_ID="${{ secrets.GOOGLE_ID }}"
