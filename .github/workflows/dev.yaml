@@ -31,8 +31,8 @@ jobs:
           NEXTAUTH_SECRET="${{ secrets.NEXTAUTH_SECRET_DEV }}"
           NEXTAUTH_URL="${{ secrets.NEXTAUTH_URL_DEV }}"
           OPEN_AI="${{ secrets.OPEN_AI }}"
-          vercel env add GOOGLE_ID=${GOOGLE_ID} preview --token=${{ secrets.VERCEL_TOKEN }} --yes
           vercel env add GOOGLE_SECRET=${GOOGLE_SECRET} preview --token=${{ secrets.VERCEL_TOKEN }} --yes
+          vercel env add GOOGLE_ID=${GOOGLE_ID} preview --token=${{ secrets.VERCEL_TOKEN }} --yes
           vercel env add DATABASE_URL=${DATABASE_URL} preview --token=${{ secrets.VERCEL_TOKEN }} --yes
           vercel env add NEXTAUTH_SECRET=${NEXTAUTH_SECRET} preview --token=${{ secrets.VERCEL_TOKEN }} --yes
           vercel env add NEXTAUTH_URL=${NEXTAUTH_URL} preview --token=${{ secrets.VERCEL_TOKEN }} --yes
