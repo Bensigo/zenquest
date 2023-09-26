@@ -8,6 +8,7 @@ env:
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET_DEV }}
   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL_DEV }}
   OPEN_AI: ${{ secrets.OPEN_AI }}
+  
 on:
   push:
     branches:
