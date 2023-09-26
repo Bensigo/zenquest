@@ -8,7 +8,7 @@ env:
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET_DEV }}
   NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL_DEV }}
   OPEN_AI: ${{ secrets.OPEN_AI }}
-  
+
 on:
   push:
     branches:
@@ -25,4 +25,4 @@ jobs:
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}  
+        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} -e VERCEL_ORG_ID=${{ secrets.VERCEL_ORG_ID }} -e VERCEL_PROJECT_ID=${{ secrets.VERCEL_PROJECT_ID }} -e GOOGLE_ID=${{ secrets.GOOGLE_ID }} -e GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} -e DATABASE_URL=${{ secrets.DATABASE_URL_DEV }} -e NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET_DEV }} -e NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL_DEV }} -e OPEN_AI=${{ secrets.OPEN_AI }}
