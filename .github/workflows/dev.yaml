@@ -26,7 +26,7 @@ jobs:
       - name: ls existing variables
         run: vercel env ls preview  --token=${{ secrets.VERCEL_TOKEN }} 
       - name: Add env variable to cloud
-        run: vercel env add GOOGLE_ID ${{ secrets.GOOGLE_ID }} --yes --environment=preview  --token=${{ secrets.VERCEL_TOKEN }} 
+        run: vercel env add GOOGLE_ID  --environment=preview --yes  --token=${{ secrets.VERCEL_TOKEN }} 
           # vercel env add GOOGLE_SECRET=${{ secrets.GOOGLE_SECRET }} --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           # vercel env add DATABASE_URL=${{ secrets.DATABASE_URL_DEV }} --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
           # vercel env add NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET_DEV }} --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
