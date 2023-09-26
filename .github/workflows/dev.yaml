@@ -24,7 +24,9 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: ls existing variables
-        run: vercel env ls  --environment=preview  --token=${{ secrets.VERCEL_TOKEN }} 
+        run: vercel env ls preview  --token=${{ secrets.VERCEL_TOKEN }} 
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
       - name: Add env variable to cloud
         run: |
           vercel env add GOOGLE_ID=${{ secrets.GOOGLE_ID }} --yes --environment=preview  --token=${{ secrets.VERCEL_TOKEN }} 
@@ -33,8 +35,6 @@ jobs:
           vercel env add NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET_DEV }} --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
           vercel env add NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL_DEV }} --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
           vercel env add OPEN_AI=${{ secrets.OPEN_AI }} --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
-      - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}  
       - name: Deploy Project Artifacts to Vercel
