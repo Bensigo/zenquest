@@ -23,6 +23,8 @@ jobs:
           node-version: '16.x'
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+      - name: remove existing variables
+        run: vercel env rm preview   
       - name: Add env variable to cloud
         run: |
           GOOGLE_ID="${{ secrets.GOOGLE_ID }}"
