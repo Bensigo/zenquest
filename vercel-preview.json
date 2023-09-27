@@ -1,0 +1,3 @@
+{
+    "buildCommand": "env-cmd -f .env.preview.local next build"
+}
