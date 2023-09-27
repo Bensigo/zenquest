@@ -1,11 +1,12 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { type GetServerSidePropsContext } from "next";
 import {
   getServerSession,
   type NextAuthOptions,
   type DefaultSession,
 } from "next-auth";
-import GoogleProvider from 'next-auth/providers/google'
+import GoogleProvider from "next-auth/providers/google";
 // import EmailProvider from 'next-auth/providers/email'
 import { prisma } from "@/server/db";
 import { Level, PrismaClient } from "@prisma/client";
@@ -39,19 +40,18 @@ declare module "next-auth" {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt(params) {
-      if(params.user){
+      if (params.user) {
         const prisma = new PrismaClient();
         await prisma.profile.create({
           data: {
             userId: params.user.id,
             level: Level.Eden,
-          }
-        })
-        await prisma.$disconnect()
+          },
+        });
+        await prisma.$disconnect();
       }
 
-      return params.token
-      
+      return params.token;
     },
     session: ({ session, user }) => ({
       ...session,
@@ -67,10 +67,30 @@ export const authOptions: NextAuthOptions = {
     //   clientId: process.env.APPLE_ID,
     //   clientSecret: process.env.APPLE_SECRET
     // }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_ID as string,
-      clientSecret: process.env.GOOGLE_SECRET as string
-    }),
+    process.env.VERCEL_ENV === "preview"
+      ? CredentialsProvider({
+          name: "Credentials",
+          credentials: {
+            username: {
+              label: "Username",
+              type: "text",
+              placeholder: "jsmith",
+            },
+            password: { label: "Password", type: "password" },
+          },
+          authorize () {
+            return {
+              id: '1234553',
+              name: "J Smith",
+              email: "jsmith@example.com",
+              image: "https://i.pravatar.cc/150?u=jsmith@example.com",
+            }
+          }
+        })
+      : GoogleProvider({
+          clientId: process.env.GOOGLE_ID as string,
+          clientSecret: process.env.GOOGLE_SECRET as string,
+        }),
     // Passwordless / email sign in
     // EmailProvider({
     //   server: process.env.MAIL_SERVER,
