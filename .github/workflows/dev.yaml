@@ -26,8 +26,10 @@ jobs:
       - name: ls existing variables
         run: vercel env ls preview  --token=${{ secrets.VERCEL_TOKEN }} 
       - name: Pull Vercel Environment Information
-        run: vercel pull .env.local  --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
+        run: vercel pull .env.preview.local  --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }} 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }} --yes
       - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} 
+        run: | 
+          vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }} > domain.txt
+          # vercel alias --scope ${{ secrets.VERCEL_TEAM_ID }} --token=${{ secrets.VERCEL_TOKEN }} set `cat domain.txt` zenQuest-preview.vercel.app
