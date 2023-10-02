@@ -1,0 +1,3 @@
+{
+    "buildCommand": "env-cmd -f .vercel/.env.preview.local next build"
+}
