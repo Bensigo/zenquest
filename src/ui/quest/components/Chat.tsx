@@ -1,4 +1,4 @@
-import { Box, Textarea, IconButton, VStack, Text, Flex, Spinner, Button, useToast } from "@chakra-ui/react";
+import { Box, Textarea, IconButton, VStack, Text, Flex, Spinner, Button, useToast, useColorMode, useColorModeValue } from "@chakra-ui/react";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 import { useEffect, useRef, useState } from "react";
 import { type Message } from "@prisma/client";
@@ -174,7 +174,7 @@ const ChatUI = ({
       {/* Chat Input and Send Button */}
       <Flex
         p={4}
-        bg="white"
+        bg={useColorModeValue("whiteAlpha.400", "inherit")}
         bottom="0"
         alignItems="center"
         width="100%"
@@ -189,6 +189,7 @@ const ChatUI = ({
           mr={2}
           variant={'filled'}
           _focus={{ border: 'none'}}
+          color="gray.700"
           disabled={isInputDisabled}
           onChange={(e) => setMessageInput(e.target.value)}
           placeholder={
