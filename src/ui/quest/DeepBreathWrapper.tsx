@@ -70,10 +70,10 @@ export const DeepBreathWrapper = () => {
         </video>
         
         {/* Short Description */}
-        <Text mt={4} color={'sage.400'} fontSize="xl" fontWeight="semibold">
+        <Text mt={4} color={useColorModeValue('sage.400', 'ActiveCaption')} fontSize="xl" fontWeight="semibold">
           Take a Deep Breath
         </Text>
-        <Text color={'sage.400'}  mt={2}>
+        <Text color={useColorModeValue('sage.400', 'ActiveCaption')}  mt={2}>
           Taking a deep breath can help you relax and reduce stress. Close your eyes, inhale deeply through your nose, hold for a few seconds, and exhale slowly through your mouth. Repeat a few times.
         </Text>
         

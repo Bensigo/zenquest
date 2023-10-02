@@ -1,6 +1,6 @@
 
 
-import { Box } from '@chakra-ui/react'
+import { Box, useColorModeValue } from '@chakra-ui/react'
 import React from 'react'
 
 export const InfoNote = (props: { children: any}) => {
@@ -16,7 +16,7 @@ export const InfoNote = (props: { children: any}) => {
     borderLeftColor="sage.500"
     fontSize="sm"
     fontStyle="italic"
-    color="sage.500"
+    color={useColorModeValue("sage.500", "CaptionText")}
     mt={2}
   >    {children}
     </Box>
