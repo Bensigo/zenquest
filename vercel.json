@@ -1,0 +1,8 @@
+{
+    "crons": [
+        {
+            "path": "/api/cron?name=expiredQuestToInActive",
+            "schedule": "0 3 * * *" 
+        }
+    ]
+}

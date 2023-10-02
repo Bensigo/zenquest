@@ -24,6 +24,7 @@
     "@trpc/next": "^10.26.0",
     "@trpc/react-query": "^10.26.0",
     "@trpc/server": "^10.26.0",
+    "@vercel/kv": "^0.2.3",
     "add-to-calendar-button-react": "^2.4.1",
     "chart.js": "^4.3.0",
     "chartjs-adapter-date-fns": "^3.0.0",
