@@ -189,7 +189,7 @@ const ChatUI = ({
           mr={2}
           variant={'filled'}
           _focus={{ border: 'none'}}
-          color="gray.700"
+          color={useColorModeValue("gray.700", "ActiveCaption")}
           disabled={isInputDisabled}
           onChange={(e) => setMessageInput(e.target.value)}
           placeholder={
