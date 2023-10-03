@@ -28,13 +28,7 @@ const Filter = ({
   return (
     <Box p={4}>
       <ButtonGroup isAttached variant="solid">
-        <Button
-          colorScheme={selectedFilter === "all" ? "sage" : "gray"}
-          onClick={() => onChange("all")}
-        >
-          All
-        </Button>
-        <Button
+      <Button
           colorScheme={selectedFilter === "active" ? "sage" : "gray"}
           onClick={() => onChange("active")}
         >
@@ -45,6 +39,12 @@ const Filter = ({
           onClick={() => onChange("inactive")}
         >
           Inactive
+        </Button>
+        <Button
+          colorScheme={selectedFilter === "all" ? "sage" : "gray"}
+          onClick={() => onChange("all")}
+        >
+          All
         </Button>
       </ButtonGroup>
     </Box>
