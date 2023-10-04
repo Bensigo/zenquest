@@ -29,14 +29,13 @@ export const activityRouter = createTRPCRouter({
           const prisma = ctx.prisma;
 
               // check for cache
-      const cacheKey = `${ctx.session.user.id}_affirmation`
-      const cacheData = await kv.get<string>(cacheKey);
+      const cacheKey = `${ctx.session.user.id}_affirmation_v2`
+      const cacheData = await kv.get<Activity[]>(cacheKey);
 
       console.log({ cacheData }) // log for texting
 
       if(cacheData) {
-        const data = (JSON.parse(cacheData) )as Activity[];
-        return data
+        return cacheData
       }
 
           // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
@@ -70,8 +69,8 @@ export const activityRouter = createTRPCRouter({
           console.log({ activities })
 
           // set cache data
-          const currentCache = JSON.stringify(activities)
-          await kv.set(cacheKey, currentCache, {
+         
+          await kv.set(cacheKey, activities, {
             ex: 86400 
           })
     
