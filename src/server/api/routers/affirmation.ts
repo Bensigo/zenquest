@@ -1,5 +1,6 @@
 import { extractArrayFromString, queryOpenAi } from "@/utils/openai";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
+import { kv } from "@vercel/kv";
 
 const aiPromptForAffirmations = `I want you to generate 8 affirmation, to brighting my day. return answer in an array format, without indexing`
 
@@ -26,6 +27,15 @@ export const affirmationRoutes = createTRPCRouter({
     getDailyAffirmations: protectedProcedure.query(async ({ ctx }) => {
         const prisma = ctx.prisma;
         const user = ctx.session.user;
+
+
+        const cacheKey = `${user.id}_daily_affirmations`;
+        const cacheAffirmations = await kv.get<string[]>(cacheKey);
+  
+        if (cacheAffirmations && cacheAffirmations.length){
+          return cacheAffirmations;
+        }
+
         const prompt = aiPromptForAffirmations;
         const quest = await prisma.quest.findFirst({
           where: {
@@ -54,6 +64,13 @@ export const affirmationRoutes = createTRPCRouter({
         throw new Error('Opps something went wrong try again')
       }
       const affirmations = extractArrayFromString(rawResp);
+
+
+        // cache affirmations 
+        await kv.set(cacheKey, affirmations, {
+          ex: 86400
+        })
+
       return affirmations
       
 
@@ -61,6 +78,15 @@ export const affirmationRoutes = createTRPCRouter({
     getQuestAffirmation: protectedProcedure.query(async ({ ctx }) => {
       const prisma = ctx.prisma;
       const user = ctx.session.user;
+
+
+      const cacheKey = `${user.id}_affirmations`;
+      const cacheAffirmations = await kv.get<string[]>(cacheKey);
+
+      if (cacheAffirmations && cacheAffirmations.length){
+        return cacheAffirmations;
+      }
+
 
       const quest = await prisma.quest.findFirst({
         where: {
@@ -78,6 +104,11 @@ export const affirmationRoutes = createTRPCRouter({
       const rawResp = (await queryOpenAi(prompt)) as string
     
       const affirmations = extractArrayFromString(rawResp);
+
+      // cache affirmations 
+      await kv.set(cacheKey, affirmations, {
+        ex: 86400
+      })
      
 
       return affirmations;
