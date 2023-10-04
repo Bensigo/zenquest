@@ -55,7 +55,7 @@ const QuestHomeWrapper = () => {
   const router = useRouter();
   const [selectedFilter, setSelectedFilter] = useState<
     "all" | "active" | "inactive"
-  >("all");
+  >("active");
   const ctx = api.useContext()
   const {
     data: quests,
