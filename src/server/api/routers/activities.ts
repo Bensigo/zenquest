@@ -4,6 +4,7 @@ import { queryOpenAi } from "@/utils/openai";
 import { DailyQuestActivity, Level } from "@prisma/client";
 import { getLevel } from "../utils";
 import { createChat } from "./chat";
+import { kv } from "@vercel/kv";
 
 interface Activity {
   title: string;
@@ -26,6 +27,17 @@ export const activityRouter = createTRPCRouter({
     .query(async ({ ctx, input }) => {
         try {
           const prisma = ctx.prisma;
+
+              // check for cache
+      const cacheKey = `${ctx.session.user.id}_affirmation`
+      const cacheData = await kv.get<string>(cacheKey);
+
+      console.log({ cacheData }) // log for texting
+
+      if(cacheData) {
+        const data = (JSON.parse(cacheData) )as Activity[];
+        return data
+      }
 
           // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
           const quest = await prisma.quest.findFirst({
@@ -56,6 +68,12 @@ export const activityRouter = createTRPCRouter({
           }
           const activities = parseActivities(rawActivitiyResponse);
           console.log({ activities })
+
+          // set cache data
+          const currentCache = JSON.stringify(activities)
+          await kv.set(cacheKey, currentCache, {
+            ex: 86400 
+          })
     
           return activities;
         }
@@ -244,6 +262,8 @@ export const activityRouter = createTRPCRouter({
     getActiveDailyActivity: protectedProcedure.input(z.object({
       type: z.enum(dailyActivityEnum)
     })).query(async ({ ctx, input }) => {
+
+  
 
       const activity  = ctx.prisma.dailyActivity.findFirst({
         where: {
