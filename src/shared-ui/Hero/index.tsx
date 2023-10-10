@@ -1,4 +1,5 @@
-import { Flex, Stack, Heading, Button, Image, Box } from "@chakra-ui/react";
+import { Flex, Stack, Heading, Button  } from "@chakra-ui/react";
+import { track } from '@vercel/analytics';
 
 
 type Hero = {
@@ -66,7 +67,11 @@ export default function Hero({
               }}
               color={"white"}
               borderRadius="8px"
-              onClick={onClick}
+              onClick={() => {
+                track("SigupClicked")
+                onClick()
+
+              }}
               py="4"
               px="4"
               lineHeight="1"
@@ -78,7 +83,10 @@ export default function Hero({
               colorScheme="teal"
               variant={'ghost'}
               borderRadius="8px"
-              onClick={onLoginClick}
+              onClick={() => {
+                onLoginClick()
+                track("SignClicked")
+              }}
               py="4"
               px="8"
               lineHeight="1"

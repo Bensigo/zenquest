@@ -10,6 +10,8 @@ import GoogleProvider from "next-auth/providers/google";
 // import EmailProvider from 'next-auth/providers/email'
 import { prisma } from "@/server/db";
 import { Level, PrismaClient } from "@prisma/client";
+// import { track } from '@vercel/analytics/server';
+
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -48,6 +50,7 @@ export const authOptions: NextAuthOptions = {
             level: Level.Eden,
           },
         });
+        // await track("newUseCreatedr")
         await prisma.$disconnect();
       }
 

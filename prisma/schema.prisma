@@ -113,6 +113,7 @@ model Quest {
   dailyTherapySessions       DailyTherapySession[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deleted Boolean @default(false)
 }
 
 

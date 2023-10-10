@@ -10,12 +10,14 @@ import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
 import { AnimatePresence } from 'framer-motion';
 import customTheme from "@/utils/theme";
+import { Analytics } from "@vercel/analytics/react"
 
 const MyApp: AppType<{ session: Session | null }> = ({
   Component,
   pageProps: { session, ...pageProps },
 }) => {
   return (
+    <>
     <SessionProvider session={session}>
       <ChakraProvider theme={customTheme}>
         <AnimatePresence>
@@ -24,6 +26,8 @@ const MyApp: AppType<{ session: Session | null }> = ({
       </ChakraProvider>
      
     </SessionProvider>
+    <Analytics />
+    </>
   );
 };
 

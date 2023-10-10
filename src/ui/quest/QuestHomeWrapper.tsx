@@ -10,6 +10,7 @@ import {
   Skeleton,
   Text,
 } from "@chakra-ui/react";
+import { track } from "@vercel/analytics/react";
 import differenceInCalendarDays from "date-fns/differenceInCalendarDays";
 import differenceInDays from "date-fns/differenceInDays";
 import { useRouter } from "next/router";
@@ -68,7 +69,9 @@ const QuestHomeWrapper = () => {
   });
 
   const goToNewQuestPage = async () => {
+    track('CreateNewGoalClicked')
     await router.push("/space/quest/new");
+   
   };
 
   const handleFilterChange = async (value: "all" | "active" | "inactive") => {
@@ -77,7 +80,9 @@ const QuestHomeWrapper = () => {
   };
 
   const gotoQUestDetail = async (id: string) => {
+    track('continueQuestClicked')
     await router.push("/space/quest/" + id);
+    
   };
   const today = new Date();
 
@@ -135,6 +140,8 @@ const QuestHomeWrapper = () => {
                   currentDay={() => getNumberOfDays(quest.createdAt)}
                   totalDays={() => totalDays(quest.createdAt, quest.endDate)}
                   key={quest.id}
+                  id={quest.id}
+                  selectedFilter={selectedFilter}
                   isActive={quest.isActive}
                   description={quest.goal?.name}
                   btnText="View"

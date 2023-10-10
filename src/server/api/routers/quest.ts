@@ -1,11 +1,11 @@
 import { z } from "zod";
 
-import { extractArrayFromString, queryOpenAi } from "@/utils/openai"; // Provide the correct relative path to the queryOpenAi function
+import { extractArrayFromString, queryOpenAi } from "@/server/api/utils/openai"; // Provide the correct relative path to the queryOpenAi function
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { isSameDay } from "date-fns";
 import { type Quest } from "@prisma/client";
 import { prisma } from "@/server/db";
-import { getLevel } from "../utils";
+import { getLevel } from "../utils/level";
 import { TRPCError } from "@trpc/server";
 
 const questRouter = createTRPCRouter({
@@ -171,6 +171,7 @@ const questRouter = createTRPCRouter({
       const quests = await prisma.quest.findMany({
         where: {
           userId,
+          deleted: false,
         ...( filter === 'all' ? { }: { isActive } )
         },
         skip,
@@ -198,9 +199,27 @@ const questRouter = createTRPCRouter({
         where: {
           id,
           userId,
+          deleted: false
         },
         include: {
           goal: true
+        }
+      })
+      return quest;
+    }),
+    delete: protectedProcedure.input(z.object({
+      id: z.string(),
+    })).mutation(async ({ ctx, input }) => {
+
+      const { id } = input;
+
+
+      const quest =  ctx.prisma.quest.update({
+        where: {
+          id,
+        },
+        data: {
+          deleted: true,
         }
       })
       return quest;

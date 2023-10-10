@@ -27,6 +27,7 @@ export const env = createEnv({
     APPLE_SECRET: z.string().optional(),
     MAIL_SERVER: z.string().optional(),
     OPEN_AI: z.string(),
+    SENDGRID_API_KEY: z.string().optional(),
   },
 
   /**
@@ -53,6 +54,7 @@ export const env = createEnv({
     APPLE_SECRET: process.env.APPLE_SECRET,
     MAIL_SERVER: process.env.MAIL_SERVER,
     OPEN_AI: process.env.OPEN_AI,
+    SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation.

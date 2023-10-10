@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { signIn } from "next-auth/react";
 
+
 type ValueType = { imageSrc: string;  description: string };
 
 const howItWorks: ValueType[] = [

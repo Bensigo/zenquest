@@ -1,4 +1,4 @@
-import { extractQuestionsFromString, queryOpenAi } from "@/utils/openai";
+import { extractQuestionsFromString, queryOpenAi } from "@/server/api/utils/openai";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
 
