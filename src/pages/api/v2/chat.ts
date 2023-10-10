@@ -45,11 +45,11 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
    
   }
 
-  // const isValidChatSession = isValidSession(dailySession)
-  // if (!isValidChatSession){
-  //    res.status(400).send("Expired session")
-  //    return;
-  // }
+  const isValidChatSession = isValidSession(dailySession)
+  if (!isValidChatSession){
+     res.status(400).send("Expired session")
+     return;
+  }
 
   const response = await openai.createChatCompletion({
     stream: true,
