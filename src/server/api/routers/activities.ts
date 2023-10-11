@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
-import { queryOpenAi } from "@/utils/openai";
+import { queryOpenAi } from "@/server/api/utils/openai";
 import { DailyQuestActivity, Level } from "@prisma/client";
-import { getLevel } from "../utils";
+import { getLevel } from "../utils/level";
 import { createChat } from "./chat";
 import { kv } from "@vercel/kv";
 

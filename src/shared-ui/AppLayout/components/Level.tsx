@@ -8,12 +8,12 @@ interface LevelDisplayProps {
 
 const LevelDisplay: React.FC<LevelDisplayProps> = ({ score, level }) => {
   const levelIcons: { [key: string]: JSX.Element } = {
-    Eden: <FaTrophy color='yellow' />,
-    Alpha: <FaTrophy color='yellow' />,
-    Omega: <FaTrophy color='yellow' />,
-    Titan: <FaMedal color='yellow' />,
-    Zenith: <FaMedal color='yellow' />,
-    GodMode: <FaMedal  color='yellow' />,
+    Eden: <FaTrophy color='gold' />,
+    Alpha: <FaTrophy color='gold' />,
+    Omega: <FaTrophy color='gold' />,
+    Titan: <FaMedal color='gold' />,
+    Zenith: <FaMedal color='gold' />,
+    GodMode: <FaMedal  color='gold' />,
   };
 
   return (
@@ -22,21 +22,19 @@ const LevelDisplay: React.FC<LevelDisplayProps> = ({ score, level }) => {
         display="flex"
         px={2}
         py={1}
-        bg="green.300"
+    
+        zIndex={-100}
         flexDir={'row'}
         gap={2}
         alignItems={'center'}
-        color="white"
-        border="2px solid sage"
-        borderRadius="lg"
-        boxShadow="sm"
+  
         textAlign="center"
       >
-        <Icon as={() => levelIcons[level]} boxSize={12} color="yellow" mb={2} />
-        <Text fontSize="md" fontWeight="bold">
+        <Icon as={() => levelIcons[level]} boxSize={12}  mb={2} />
+        <Text fontSize="md" fontWeight="bold" color={'sage.400'}>
           {level}
         </Text>
-        <Text fontSize="sm" display={{ base: 'none', md: 'inherit' }}>Score: {score}</Text>
+        <Text color={'sage.400'} fontSize="sm" display={{ base: 'none', md: 'inherit' }}>Score: {score}</Text>
       </Box>
     </Tooltip>
   );

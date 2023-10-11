@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { env } from "@/env.mjs";
-import { ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
+import { OpenAIStream, StreamingTextResponse } from 'ai'
+import { type ChatCompletionRequestMessage, Configuration, OpenAIApi } from "openai";
 
 const config = new Configuration({
   apiKey: env.OPEN_AI,

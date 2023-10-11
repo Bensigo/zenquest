@@ -72,6 +72,8 @@ export default function AppLayout({ children }: { children: ReactNode }) {
     void goHome();
   };
 
+
+
   return (
     <Box minH="100vh" bg={sidebarBg} overflowY="scroll">
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
@@ -98,7 +100,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <Flex justify="space-between" align="center" flexWrap={{ base: 'wrap', md: 'nowrap' }}>
           <Skeleton isLoaded={!isLoading}>
             {profile && (
-              <Box my={4} mx={{ base: 'auto', md: 0 }}>
+              <Box my={4} mx={{ base: 'auto', md: 0 }} >
                 <LevelDisplay level={profile.level} score={profile.score} />
               </Box>
             )}

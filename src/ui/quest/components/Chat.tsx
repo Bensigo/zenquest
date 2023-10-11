@@ -1,177 +1,227 @@
-import { Box, Textarea, IconButton, VStack, Text, Flex, Spinner, Button, useToast, useColorMode, useColorModeValue } from "@chakra-ui/react";
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import {
+  Box,
+  Textarea,
+  IconButton,
+  VStack,
+  Text,
+  Flex,
+  Button,
+  useToast,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { BiArrowBack, BiSend } from "react-icons/bi";
 import { useEffect, useRef, useState } from "react";
-import { type Message } from "@prisma/client";
 import { useRouter } from "next/router";
 import { api } from "@/utils/api";
+import { useChat } from "ai/react";
+import React from "react";
+import { type Message } from "@prisma/client";
+import { ChatScrollAnchor } from "./chatScrollArchor";
 
-const ChatUI = ({
-  msgs,
-  onSendMsg,
-  user,
-  isLoading,
-}: {
-  msgs: Message[];
-  onSendMsg: (msg: string) => void;
-  user?: { [key: string]: any };
-  isLoading: boolean;
-}) => {
+const ChatUI = ({ msgs }: { msgs: Message[] }) => {
   const router = useRouter();
-  // Create a ref for the chat container
-  const chatContainerRef = useRef<any>(null);
-  const context = api.useContext()
-  const [messageInput, setMessageInput] = useState<string>('');
-  const [isInputDisabled, setIsInputDisabled] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(600); // 10 minutes in seconds
+  const context = api.useContext();
+  const [isSendBtnDisabled, setSendDisabled] = useState(false);
+  const [input, setInput] = useState("");
+  const [timeRemaining, setTimeRemaining] = useState(1800); // 30 minutes in seconds
+
+
 
   const toast = useToast();
-  const { data: activity } = api.activity.getActiveDailyActivity.useQuery({ type: 'Chat'})
-  const {  mutate } = api.activity.completeQuestActivity.useMutation()
+  const { data: activity } = api.activity.getActiveDailyActivity.useQuery({
+    type: "Chat",
+  });
 
+  const { mutate } = api.activity.completeQuestActivity.useMutation();
 
-  const goBack =  () => {
-    router.back()
-  }
-  const handleSendMessage =  () => {
-    if (messageInput.trim() !== '') {
-      setMessageInput('');
-      setIsInputDisabled(true); // Disable input while sending
-      onSendMsg(messageInput);
-      setIsInputDisabled(false); // Enable input
-    }
+  const { messages, append } = useChat({
+    api: `/api/v2/chat`,
+    body: {
+      sessionId: msgs[0]?.sessionId,
+    },
+    initialMessages: msgs.map((msg) => ({
+      role: msg.sender as any,
+      content: msg.content,
+      id: msgs[0]?.sessionId as string,
+      createdAt: msg.createdAt,
+    })),
+    onResponse(res) {
+      setSendDisabled(false)
+      if (res.status === 401) {
+        toast({
+          description: res.statusText,
+          isClosable: true,
+          duration: 3000,
+          status: "error",
+        });
+      }
+    },
+    onError(err) {
+      toast({
+        description: err.message,
+        isClosable: true,
+        duration: 3000,
+        status: "error",
+      });
+    },
+    onFinish: () => {
+      console.log("got here");
+      setSendDisabled(false);
+    },
+  });
 
-      // Scroll to the bottom of the chat container
-     
+  const goBack = () => {
+    router.back();
+  };
+
+  const handleSendMessage = async () => {
+    const msg = input.trim()
+    setSendDisabled(true);
+    setInput("");
+    await append({
+      id: msgs[0]?.sessionId,
+      content: msg,
+      role: "user",
+    })
   };
 
   const handleSessionExpired = () => {
-    if (activity){
+    if (activity) {
       const sessionId = msgs[0]?.sessionId;
-      mutate({
-        id: activity?.id,
-        chatSessionId: sessionId,
-      }, {
-        onSuccess: () => {
-          const questId = router.query.id as string;
-          const refetch = async () => await context.activity.getActiveStep.reset({ id: questId })
-          const toQuest = async () => await router.push('/space/quest/' + questId);
-          void refetch()
-          void toQuest()
+      mutate(
+        {
+          id: activity?.id,
+          chatSessionId: sessionId,
         },
-        onError: (err) => {
+        {
+          onSuccess: () => {
+            const questId = router.query.id as string;
+            const refetch = async () =>
+              await context.activity.getActiveStep.reset({ id: questId });
+            const toQuest = async () =>
+              await router.push("/space/quest/" + questId);
+            void refetch();
+            void toQuest();
+          },
+          onError: (err) => {
             toast({
               description: err.message,
               isClosable: true,
               duration: 3000,
-              status: 'error'
-            })
+              status: "error",
+            });
+          },
         }
-      })
+      );
     }
-  
   };
 
-  useEffect(() => {
-    if (chatContainerRef.current) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-
-  }, [msgs])
 
   useEffect(() => {
-    if (isLoading) {
-      // If loading, disable input
-      setIsInputDisabled(true);
-    
-    } else {
-      setIsInputDisabled(false);
-     
-    }
 
     const timer = setInterval(() => {
       setTimeRemaining((prevTime) => prevTime - 1);
     }, 1000);
 
     if (timeRemaining <= 0) {
-      setIsInputDisabled(true);
+      setSendDisabled(true);
       clearInterval(timer);
     }
 
     return () => {
       clearInterval(timer);
     };
-  }, [timeRemaining, isLoading]);
+  }, [timeRemaining]);
+
+
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    return `${mins}:${secs < 30 ? "0" : ""}${secs}`;
   };
+
 
   return (
     <Box
       width="100%"
       position="relative"
       h="100vh"
-      px={{md: 10, base: 'none'}}
+      px={{ md: 10, base: "none" }}
       display="flex"
       flexDirection="column"
-     bg="inherit"
-
+      bg="inherit"
     >
       <Box px={3}>
-      <Box mt={4}   >
-      <IconButton  icon={<BiArrowBack />} color={'sage.500'} aria-label={"back-btn"} onClick={() => void goBack()}/>
-      </Box>
-      <Box  py={4} display={'flex'} alignItems={'center'} justifyContent={'space-between'}>
-
-     
-      {/* Timer */}
-      <Text alignSelf="center" fontSize={'sm'}  fontWeight={'bold'} color="red.300">
-        Time Remaining: {formatTime(timeRemaining)}
-      </Text>
-      <Button  variant={'solid'} colorScheme="sage" onClick={handleSessionExpired}>Complete</Button>
-      </Box>
-      
-
-      {/* Chat Messages */}
-      <VStack
-        flex="1"
-        spacing={4}
-        align="stretch"
-        overflowY="auto"
-  
-        borderRadius="md"
-        
-        py={20}
-        maxH="calc(100vh - 250px)"
-        ref={chatContainerRef}
-      >
-        {msgs.map((message, index) => (
-          <Box
-            key={index}
-            bg="purple.500"
-            color="white"
-            p={4}
-            borderRadius="md"
-            boxShadow="xs"
-            _odd={{ bg: "gray.600", color: 'white' }}
+        <Box mt={4}>
+          <IconButton
+            icon={<BiArrowBack />}
+            color={"sage.500"}
+            aria-label={"back-btn"}
+            onClick={() => void goBack()}
+          />
+        </Box>
+        <Box
+          py={4}
+          display={"flex"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          {/* Timer */}
+          <Text
+            alignSelf="center"
+            fontSize={"sm"}
+            fontWeight={"bold"}
+            color="red.300"
           >
-             <Box  fontSize={'sm'} as='span'>{message.sender === 'user'? 'You': 'Ada'}</Box>
-             <Text> {message.content}</Text>
-          </Box>
-        ))}
-        {/* Ada is Typing */}
-        {isLoading && (
-          <Box  bg="inherit" p={4} borderRadius="md" boxShadow="xs" _odd={{ bg: "gray.600", color: 'white' }}>
-            <Text fontSize={'sm'} as='span'>Ada is typing...</Text>
-          </Box>
-        )}
-      </VStack>
+            Time Remaining: {formatTime(timeRemaining)}
+          </Text>
+          <Button
+            variant={"solid"}
+            colorScheme="sage"
+            onClick={handleSessionExpired}
+          >
+            Complete
+          </Button>
+        </Box>
+
+        {/* Chat Messages */}
+        <VStack
+          flex="1"
+          spacing={4}
+          align="stretch"
+          overflowY="auto"
+          borderRadius="md"
+          pt={20}
+          maxH="calc(100vh - 250px)"
+        >
+           
+          {messages.map((message, index) => (
+            <Box
+              key={index}
+              bg="purple.500"
+              color="white"
+              p={4}
+              borderRadius="md"
+              boxShadow="xs"
+              _odd={{ bg: "gray.600", color: "white" }}
+            >
+              <Box fontSize={"sm"} as="span">
+                {message.role === "user" ? "You" : "Ada"}
+              </Box>
+              <Text> {message.content}</Text>
+            </Box>
+          ))}
+          <ChatScrollAnchor trackVisibility={!isSendBtnDisabled} />
+        </VStack>
+       
       </Box>
 
       {/* Chat Input and Send Button */}
+
       <Flex
         p={4}
         bg={useColorModeValue("whiteAlpha.400", "inherit")}
@@ -179,22 +229,18 @@ const ChatUI = ({
         alignItems="center"
         width="100%"
         borderWidth="1px"
-        position="fixed" 
-        left="0" 
+        position="fixed"
+        left="0"
         right="0"
       >
         <Textarea
-          value={messageInput}
+          value={input}
           flex="1"
           mr={2}
-          variant={'filled'}
-          _focus={{ border: 'none'}}
+          variant={"filled"}
           color={useColorModeValue("gray.700", "ActiveCaption")}
-          disabled={isInputDisabled}
-          onChange={(e) => setMessageInput(e.target.value)}
-          placeholder={
-            isInputDisabled ? 'Chat disabled' : 'Type your message...'
-          }
+          onChange={(e) => setInput(e.target.value)}
+          placeholder={"Type your message..."}
           rows={2}
           resize="none"
           borderRadius="md"
@@ -205,7 +251,7 @@ const ChatUI = ({
           colorScheme="sage"
           aria-label="Send"
           onClick={() => void handleSendMessage()}
-          isDisabled={isInputDisabled}
+          isDisabled={isSendBtnDisabled}
           borderRadius="md"
         />
       </Flex>
@@ -213,5 +259,4 @@ const ChatUI = ({
   );
 };
 
-
-export default ChatUI;
+export default React.memo(ChatUI);
