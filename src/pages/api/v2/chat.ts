@@ -6,7 +6,7 @@ import { env } from "@/env.mjs";
 import { authOptions, getServerAuthSession } from "@/server/auth";
 import { type IncomingMessage } from "http";
 
-
+export const maxDuration = 100;
 
 const config = new Configuration({
   apiKey: env.OPEN_AI,
