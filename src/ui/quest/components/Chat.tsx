@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
@@ -44,7 +45,7 @@ const CompleteButton: React.FC<CompleteButtonProps> = ({ onClick }) => (
 );
 
 interface ChatMessageProps {
-  message: Message;
+  message: any;
   index: number;
 }
 
