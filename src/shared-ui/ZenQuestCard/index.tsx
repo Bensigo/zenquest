@@ -36,7 +36,7 @@ export default function ZenQuestCard(props: ZenQuestCardProps) {
     mutate({ id: props.id }, {
       onSuccess: () => {
         const ctx = api.useContext()
-       const invalidateListQuest = async() => await ctx.quest.list.refetch({
+       const invalidateListQuest = async() => await ctx.quest.list.reset({
           filter: props.selectedFilter,
           take: 20
         })

@@ -1,34 +1,41 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { type DailyTherapySession, PrismaClient } from "@prisma/client";
-import { type NextApiResponse, type NextApiRequest } from "next";
-import { Configuration, OpenAIApi } from "openai";
+import { type DailyTherapySession, PrismaClient } from "@prisma/client/edge";
+import { withAccelerate } from '@prisma/extension-accelerate';
+import { OpenAIStream, StreamingTextResponse } from 'ai'
+import { Configuration, OpenAIApi } from 'openai-edge'
 import { env } from "@/env.mjs";
-import { authOptions, getServerAuthSession } from "@/server/auth";
-import { type IncomingMessage } from "http";
+import { auth } from "../auth/[...nextauth]";
 
-export const maxDuration = 100;
+
+
+export const runtime = 'edge';
 
 const config = new Configuration({
   apiKey: env.OPEN_AI,
-});
+})
+
 const openai = new OpenAIApi(config)
 
-let content = ''
-
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
+export default async function POST(req: Request) {
 
   // handle auth
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const session =  await getServerAuthSession({ req, res,  authOptions  });
-  if(!session){
-    return res.status(401).send("Unauthorized")
-  }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+    const session = req.headers.getSetCookie()
+  
+    console.log({ session  })
+    if (!session){
+      return new Response('Unauthorized', {
+        status: 401
+      })
+    }
   
 
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient().$extends(withAccelerate());
+  const json = await req.json() as { messages: any[], sessionId: string }
   
-  const { sessionId, messages } =   JSON.parse(req.body as string) as { messages: any[], sessionId: string }; 
+  const { sessionId, messages } =   json;
+
+
 
   const dailySession = await prisma.dailyTherapySession.findFirst({
     where: {
@@ -41,72 +48,50 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
   });
 
   if (!dailySession) {
-    return res.status(400).send("Invalid Therapy Session")
+    return Response.json("Invalid Therapy Session")
    
   }
+  
+  
 
-  const isValidChatSession = isValidSession(dailySession)
-  if (!isValidChatSession){
-     res.status(400).send("Expired session")
-     return;
-  }
+  // const isValidChatSession = isValidSession(dailySession)
+  // if (!isValidChatSession){
+  //    res.status(400).send("Expired session")
+  //    return;
+  // }
 
   const response = await openai.createChatCompletion({
     stream: true,
     model: "gpt-3.5-turbo",
     messages,
-    temperature: 0.6,
-  }, { responseType: 'stream'});
-
-
-  const stream = response.data as unknown as IncomingMessage;
-
-  stream.on('data', (chunk: Buffer) => processChunk(chunk, res));
-  
-  stream.on('error', (err: Error) => {
-    console.log(err);
-    res.status(500).send("Internal Server Error");
+    temperature: 0.4,
   });
 
-  stream.on('end', () => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const msg = messages[messages.length - 1].content
-    const saveMessagesToDatabase = async () =>   await prisma.message.createMany({
-          data: [
-            {
-              sender: "user",
-              sessionId,
-              content: msg,
-            },
-            {
-              sender: "assistant",
-              sessionId,
-              content,
-            },
-          ],
-    });
-    void saveMessagesToDatabase();
-    return;
+
+  const stream = OpenAIStream(response, {
+    async onCompletion(content){
+      await prisma.message.createMany({
+        data: [
+          {
+            sender: "user",
+            sessionId,
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+            content: messages[messages.length - 1].content,
+          },
+          {
+            sender: "assistant",
+            sessionId,
+            content,
+          },
+        ],
+  });
+    }
   })
-  
-  return res.status(200);
+
+  return new StreamingTextResponse(stream)
 }
 
-function processChunk(chunk: Buffer, res: NextApiResponse) {
-  const payloads = chunk.toString().split("\n\n");
-  for (const payload of payloads) {
-    if (payload.includes('[DONE]')) return;
-    if (payload.startsWith("data:")) {
-      const data = JSON.parse(payload.replace("data: ", ""));
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const chunkContent: string | undefined = data.choices[0].delta?.content;
-      if (chunkContent) {
-        content += chunkContent;
-        res.write(chunkContent);
-      }
-    }
-  }
-}
+
 
 function isValidSession(dailySession: DailyTherapySession) {
     const startTime = new Date(dailySession.start);
