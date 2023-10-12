@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 import { api } from "@/utils/api";
 import { useChat } from "ai/react";
 import { ChatScrollAnchor } from "./chatScrollArchor";
-import { useEnterSubmit } from "@/shared-hooks/useEnterSubmit";
+import { useEnterSubmit } from "../../../shared-hooks/useEnterSubmit";
 import { type Message } from "@prisma/client";
 
 
