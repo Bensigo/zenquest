@@ -24,8 +24,6 @@ import { ChatScrollAnchor } from "./chatScrollArchor";
 const ChatUI = ({ msgs }: { msgs: Message[] }) => {
   const router = useRouter();
   const context = api.useContext();
-  const [isSendBtnDisabled, setSendDisabled] = useState(false);
-  const [input, setInput] = useState("");
   const [timeRemaining, setTimeRemaining] = useState(1800); // 30 minutes in seconds
 
 
@@ -37,7 +35,7 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
 
   const { mutate } = api.activity.completeQuestActivity.useMutation();
 
-  const { messages, append } = useChat({
+  const { messages, append, isLoading, input, setInput } = useChat({
     api: `/api/v2/chat`,
     body: {
       sessionId: msgs[0]?.sessionId,
@@ -49,7 +47,7 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
       createdAt: msg.createdAt,
     })),
     onResponse(res) {
-      setSendDisabled(false)
+  
       if (res.status === 401) {
         toast({
           description: res.statusText,
@@ -67,10 +65,7 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
         status: "error",
       });
     },
-    onFinish: () => {
-      console.log("got here");
-      setSendDisabled(false);
-    },
+
   });
 
   const goBack = () => {
@@ -78,9 +73,8 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
   };
 
   const handleSendMessage = async () => {
-    const msg = input.trim()
-    setSendDisabled(true);
-    setInput("");
+   const msg = input.trim()
+   setInput("")
     await append({
       id: msgs[0]?.sessionId,
       content: msg,
@@ -127,7 +121,6 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
     }, 1000);
 
     if (timeRemaining <= 0) {
-      setSendDisabled(true);
       clearInterval(timer);
     }
 
@@ -215,7 +208,7 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
               <Text> {message.content}</Text>
             </Box>
           ))}
-          <ChatScrollAnchor trackVisibility={!isSendBtnDisabled} />
+          <ChatScrollAnchor trackVisibility={!isLoading} />
         </VStack>
        
       </Box>
@@ -251,7 +244,7 @@ const ChatUI = ({ msgs }: { msgs: Message[] }) => {
           colorScheme="sage"
           aria-label="Send"
           onClick={() => void handleSendMessage()}
-          isDisabled={isSendBtnDisabled}
+          isDisabled={isLoading}
           borderRadius="md"
         />
       </Flex>
