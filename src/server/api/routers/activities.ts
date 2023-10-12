@@ -60,12 +60,12 @@ export const activityRouter = createTRPCRouter({
           }
         );
 
-        console.log({ rawActivitiyResponse });
+ 
         if (!rawActivitiyResponse) {
           throw new Error("Oops something went wrong");
         }
         const activities = parseActivities(rawActivitiyResponse);
-        console.log({ activities });
+   
 
         // set cache data
         if (process.env.VERCEL_ENV === "production") {
