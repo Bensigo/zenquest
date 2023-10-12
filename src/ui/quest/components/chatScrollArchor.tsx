@@ -15,7 +15,7 @@ export function ChatScrollAnchor({ trackVisibility }: ChatScrollAnchorProps) {
     const {ref, entry, inView } = useInView({
         trackVisibility,
         delay: 100,
-        rootMargin: '0px 0px -200px 0px'
+        rootMargin: '0px 0px -150px 0px'
     })
 
     React.useEffect(() => {
@@ -26,5 +26,5 @@ export function ChatScrollAnchor({ trackVisibility }: ChatScrollAnchorProps) {
         }
       }, [inView, entry, isAtBottom, trackVisibility])
 
-    return <Box ref={ref} h="1px" w="full" />
+    return <Box ref={ref} h="full" w="full" />
 }

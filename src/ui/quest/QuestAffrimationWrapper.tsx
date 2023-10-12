@@ -47,7 +47,7 @@ export const QuestAffrimationWrapper = () => {
                 onClick={goBack}
               ></IconButton>
             </Box>
-        <Skeleton isLoaded={isFetched}>
+        {/* <Skeleton isLoaded={isFetched}>
         {!hideInfo && <InfoNote>
             <Box my={1} display={'flex'}width={'100%'}  justifyContent={'end'}>
             <Button  colorScheme="sage"  variant={'ghost'} onClick={() => {
@@ -64,7 +64,7 @@ export const QuestAffrimationWrapper = () => {
           your journey to a more fulfilling and positive life.
             </Text>
         </InfoNote>}
-        </Skeleton>
+        </Skeleton> */}
         
          <Skeleton  isLoaded={isAffirmationFetched} mt={2}>
             <AffirmationCard isQuest={true} data={affirmations || []} title={'Daily Quest Affrimation'}/>
