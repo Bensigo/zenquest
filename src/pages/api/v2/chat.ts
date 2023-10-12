@@ -4,7 +4,6 @@ import { withAccelerate } from '@prisma/extension-accelerate';
 import { OpenAIStream, StreamingTextResponse } from 'ai'
 import { Configuration, OpenAIApi } from 'openai-edge'
 import { env } from "@/env.mjs";
-import { auth } from "../auth/[...nextauth]";
 
 
 
@@ -20,14 +19,14 @@ export default async function POST(req: Request) {
 
   // handle auth
     // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const session = req.headers.getSetCookie()
+    // const session = req.headers.getSetCookie()
   
-    console.log({ session  })
-    if (!session){
-      return new Response('Unauthorized', {
-        status: 401
-      })
-    }
+    // console.log({ session  })
+    // if (!session){
+    //   return new Response('Unauthorized', {
+    //     status: 401
+    //   })
+    // }
   
 
   const prisma = new PrismaClient().$extends(withAccelerate());
