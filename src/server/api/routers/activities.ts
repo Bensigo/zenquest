@@ -25,67 +25,65 @@ export const activityRouter = createTRPCRouter({
   getActivites: protectedProcedure
     .input(z.object({ mood: z.number(), questId: z.string() }))
     .query(async ({ ctx, input }) => {
-        try {
-          const prisma = ctx.prisma;
+      try {
+        const prisma = ctx.prisma;
+        const cacheKey = `${ctx.session.user.id}_activity`;
+        if (process.env.VERCEL_ENV === "production") {
+          // check for cache
+          const cacheData = await kv.get<Activity[]>(cacheKey);
 
-              // check for cache
-      const cacheKey = `${ctx.session.user.id}_affirmation_v2`
-      const cacheData = await kv.get<Activity[]>(cacheKey);
-
-      console.log({ cacheData }) // log for texting
-
-      if(cacheData) {
-        return cacheData
-      }
-
-          // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
-          const quest = await prisma.quest.findFirst({
-            where: {  id : input.questId },
-            include: { goal: true }
-          });
-    
-          if(!quest){
-            throw new Error('invlaid quest')
+          if (cacheData) {
+            return cacheData;
           }
-          if (!quest.goal)return [];
-          const goal = (quest.goal).name;
-          const prompt = `
+        }
+
+        // const quest = await ctx.prisma.quest.findUnique({ where: { id: input.questId }, include: { goal: true }})
+        const quest = await prisma.quest.findFirst({
+          where: { id: input.questId },
+          include: { goal: true },
+        });
+
+        if (!quest) {
+          throw new Error("invlaid quest");
+        }
+        if (!quest.goal) return [];
+        const goal = quest.goal.name;
+        const prompt = `
           Imagine yourself as a specialist, someone with a mood of ${input.mood} in a scale of 1-10
-          Can you recommend three activities for the day that can empower him/her to reach thier goal? 
+          Can you recommend 5 activities for the day that can empower him/her to reach thier goal? 
           These activities should contribute to thier pursuit of ${goal}. Please provide your response in the form of a JavaScript array of objects, with each object containing a title, duration, and a concise description (maximum 150 characters). 
             `.trim();
-    
-    
-          const rawActivitiyResponse = await queryOpenAi(prompt).catch((err: unknown) => {
-            console.log({ err })
-          })
-          
-    
-          console.log({ rawActivitiyResponse })
-          if (!rawActivitiyResponse) {
-            throw new Error("Oops something went wrong");
-          }
-          const activities = parseActivities(rawActivitiyResponse);
-          console.log({ activities })
 
-          // set cache data
-         
+        const rawActivitiyResponse = await queryOpenAi(prompt).catch(
+          (err: unknown) => {
+            console.log({ err });
+          }
+        );
+
+ 
+        if (!rawActivitiyResponse) {
+          throw new Error("Oops something went wrong");
+        }
+        const activities = parseActivities(rawActivitiyResponse);
+   
+
+        // set cache data
+        if (process.env.VERCEL_ENV === "production") {
           await kv.set(cacheKey, activities, {
-            ex: 86400 
-          })
-    
-          return activities;
+            ex: 86400,
+          });
         }
-        catch (err: unknown){
-          console.log(err)
-          throw err;
-        }
+        return activities;
+      } catch (err: unknown) {
+        console.log(err);
+        throw err;
+      }
     }),
   startQuestActivity: protectedProcedure
     .input(
       z.object({
         type: z.enum(dailyActivityEnum),
-        id: z.string()
+        id: z.string(),
       })
     )
     .mutation(async ({ input, ctx }) => {
@@ -97,24 +95,24 @@ export const activityRouter = createTRPCRouter({
 
       const { type, id } = input;
       const quest = await prisma.quest.findFirst({
-        where: { userId, id  },
-        include: { goal: true }
+        where: { userId, id },
+        include: { goal: true },
       });
 
       if (!quest) {
         throw new Error("Quest not found");
       }
-     
-      if (!quest.goal){
-        throw new Error('Invalid quest')
+
+      if (!quest.goal) {
+        throw new Error("Invalid quest");
       }
 
-      const isChat = type.toLowerCase() === DailyQuestActivity.Chat.toString().toLowerCase();
-      if (isChat){
+      const isChat =
+        type.toLowerCase() === DailyQuestActivity.Chat.toString().toLowerCase();
+      if (isChat) {
         // create a new  chat ;
-        const goal = (quest.goal).name;
-        await createChat(prisma, goal, userId, quest.id)
-
+        const goal = quest.goal.name;
+        await createChat(prisma, goal, userId, quest.id);
       }
 
       const currentDay = new Date(); // Current date
@@ -154,16 +152,13 @@ export const activityRouter = createTRPCRouter({
 
       const currentProfileScore = profile.score + score;
 
-
-
       const level = getLevel(currentProfileScore);
 
-      console.log({ level })
+      console.log({ level });
 
       if (!level) {
         throw new Error("Oops try again");
       }
- 
 
       // update user score and create activity
       await prisma.profile.update({
@@ -190,27 +185,31 @@ export const activityRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
-        chatSessionId: z.string().optional()
+        chatSessionId: z.string().optional(),
       })
     )
     .mutation(async ({ ctx, input }) => {
       const prisma = ctx.prisma;
-      const userId = ctx.session.user.id
+      const userId = ctx.session.user.id;
 
-      const profile = await prisma.profile.findFirst({ where: { userId }});
+      const profile = await prisma.profile.findFirst({ where: { userId } });
 
-      if(!profile){
-        throw new Error('user not found')
+      if (!profile) {
+        throw new Error("user not found");
       }
-      const chatId = input.chatSessionId
+      const chatId = input.chatSessionId;
 
-      if (chatId){
-       
-          const session = await prisma.dailyTherapySession.findUnique({ where: { id: chatId }});
-          if (!session){
-            throw new Error('Invalid chat session')
-          }
-           await prisma.dailyTherapySession.update({ where: { id: chatId }, data: { isActive: false }})
+      if (chatId) {
+        const session = await prisma.dailyTherapySession.findUnique({
+          where: { id: chatId },
+        });
+        if (!session) {
+          throw new Error("Invalid chat session");
+        }
+        await prisma.dailyTherapySession.update({
+          where: { id: chatId },
+          data: { isActive: false },
+        });
       }
 
       const activity = await prisma.dailyActivity.findFirst({
@@ -228,61 +227,61 @@ export const activityRouter = createTRPCRouter({
         throw new Error("Activiy does not exit");
       }
 
-   
       const currentScore = 50 + profile.score;
       const currentLevel = getLevel(currentScore);
 
       await prisma.profile.update({
         where: {
-          userId 
+          userId,
         },
         data: {
           score: currentScore,
           level: currentLevel,
-        }
-      })
-
-     
+        },
+      });
 
       const currentActivity = await prisma.dailyActivity.update({
         where: {
-          id: input.id
+          id: input.id,
         },
         data: {
           isCompleted: true,
-         
         },
         include: {
-          quest: true
-        }
-      })
+          quest: true,
+        },
+      });
       return currentActivity;
     }),
-    getActiveDailyActivity: protectedProcedure.input(z.object({
-      type: z.enum(dailyActivityEnum)
-    })).query(async ({ ctx, input }) => {
-
-  
-
-      const activity  = ctx.prisma.dailyActivity.findFirst({
+  getActiveDailyActivity: protectedProcedure
+    .input(
+      z.object({
+        type: z.enum(dailyActivityEnum),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      const activity = ctx.prisma.dailyActivity.findFirst({
         where: {
           type: input.type as DailyQuestActivity,
           isCompleted: false,
           quest: {
             userId: ctx.session.user.id,
-          }
+          },
         },
         include: {
-          quest: true
-        }
-      })
-      
-      return activity;
+          quest: true,
+        },
+      });
 
+      return activity;
     }),
-    getActiveStep: protectedProcedure.input(z.object({
-      id: z.string()
-    })).query(async ({ ctx , input}) => {
+  getActiveStep: protectedProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
       const questId = input.id;
 
       const currentDay = new Date(); // Current date
@@ -299,12 +298,12 @@ export const activityRouter = createTRPCRouter({
           createdAt: {
             gte: currentDayStart,
             lt: new Date(currentDayStart.getTime() + 24 * 60 * 60 * 1000),
-          }
+          },
         },
-      })
+      });
 
-      return { count }
-    })
+      return { count };
+    }),
 });
 
 /**
@@ -316,4 +315,3 @@ Zenith: 15001 - 40000
 GodMode: 400001 - INFINITY
  * 
  */
-

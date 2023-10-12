@@ -169,7 +169,7 @@ const steps: Step[] = [
   {
     title: "Chat",
     description:
-      "Have a 10-minute chat session with Ada, aligned with your goal.",
+      "Connect with Ada to discuss your goal in a chat session.",
     Component: (props: CardProps) => <QuestCard {...props} />,
     path: "/chat",
     imageUrl: "/space/chat.svg",
